@@ -1,7 +1,10 @@
 
 project(":lwjgl3") {
   apply plugin: "org.graalvm.buildtools.native"
-
+  dependencies {
+    // ... کدهای قبلی ...
+    api "com.badlogicgames.gdx:gdx-tools:$gdxVersion" // این خط باید دقیقاً اینجا باشد
+  }
   graalvmNative {
     binaries {
       main {

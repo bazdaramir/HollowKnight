@@ -403,7 +403,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
         default-vertical: { handle: splitPane },
         default-horizontal: { handle: splitPane }
     },
-    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
         default: { up: buttonUp, over: buttonOver, down: buttonDown, disabled: buttonDisabled, font: default, fontColor: font,
             overFontColor: fontOver, downFontColor: fontDown, disabledFontColor: fontDisabled, pressedOffsetY: -1, pressedOffsetX: 1 },
         toggle: { up: buttonUp, over: buttonOver, down: buttonDown, checked: buttonChecked, checkedOver: buttonCheckedOver,
