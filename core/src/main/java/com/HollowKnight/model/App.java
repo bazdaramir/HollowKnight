@@ -1,11 +1,12 @@
 package com.HollowKnight.model;
 
+import com.HollowKnight.Main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
 public class App {
-    private Game game; // نگه‌داشتن رفرنس هسته اصلی بازی
-    public App() {
+    private Game game;
+    public App(Main main) {
         this.game =  new Game() {
             @Override
             public void create() {
@@ -19,7 +20,6 @@ public class App {
     }
 
     public void setScreen(Screen screen) {
-        // این خط کلیدی است! این دستور مستقیماً به فریم‌ورک می‌گوید صفحه را عوض کن
         game.setScreen(screen);
     }
 }
