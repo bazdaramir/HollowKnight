@@ -1,8 +1,8 @@
 package com.HollowKnight.view;
 
-import com.HollowKnight.model.AnimatedImage;
+import com.HollowKnight.model.UIHelper;
+import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.App;
-import com.HollowKnight.model.AudioManager;
 import com.HollowKnight.model.Translator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -87,7 +87,7 @@ public class GuideScreen implements Screen {
         titleLabel.setFontScale(1.4f);
         mainTable.add(titleLabel).colspan(2).padBottom(10).row();
 
-        // انیمیشن زیر تیتر
+        // بیلبیلک زیر تیتر
         AnimatedImage animatedHeader = new AnimatedImage(UIHelper.getHeaderAnim(), false);
         mainTable.add(animatedHeader).size(600, 150).padBottom(20).padRight(55).row();
 
@@ -116,7 +116,7 @@ public class GuideScreen implements Screen {
 
         addOrnament(contentTable);
 
-        //  CHEATS
+        //  چیت ها
         contentTable.add(new Label(Translator.getText("CHEAT CODES"), titleStyle)).padBottom(30).row();
         Table cheatTable = new Table();
         addInfoRow(cheatTable, Translator.getText("GOD MODE:"), Translator.getText("DESC_F1"));

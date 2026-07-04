@@ -1,9 +1,10 @@
 package com.HollowKnight.view;
 
-import com.HollowKnight.model.AnimatedImage;
+import com.HollowKnight.model.UIHelper;
+import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.App;
-import com.HollowKnight.model.AudioManager;
-import com.HollowKnight.model.GameDataManager;
+import com.HollowKnight.model.manager.AudioManager;
+import com.HollowKnight.model.manager.GameDataManager;
 import com.HollowKnight.model.Translator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -19,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -179,7 +179,7 @@ public class StartGameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 AudioManager.getInstance().playClickSound();
                 if (finalIsNewGame) {
-                    transitionToScreen(new StartGameScreen(app));
+                    transitionToScreen(new GameScreen(app));
                 } else {
                     System.out.println("Loading game slot: " + slotIndex);
                 }

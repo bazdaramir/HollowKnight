@@ -1,0 +1,8 @@
+package com.HollowKnight.model.enums;
+
+public enum FalseKnightStation {
+    IDLE, RUN_ANTIC, RUN, JUMP_ANTIC, JUMP, JUMP_ATTACK, LAND,
+    ATTACK_ANTIC, ATTACK, ATTACK_RECOVER, DEFENSIVE_LEAP,
+    STUN, STUN_RECOVER,
+    DEATH_HIT, DEATH_FALL, DEATH;
+}

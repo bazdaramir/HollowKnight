@@ -1,8 +1,9 @@
 package com.HollowKnight.view;
 
-import com.HollowKnight.model.AnimatedImage;
+import com.HollowKnight.model.UIHelper;
+import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.App;
-import com.HollowKnight.model.GameDataManager;
+import com.HollowKnight.model.manager.GameDataManager;
 import com.HollowKnight.model.Translator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

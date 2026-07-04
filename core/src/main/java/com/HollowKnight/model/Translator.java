@@ -183,6 +183,29 @@ public class Translator {
             case "ACH_ENCHANTED_DESC":
                 if (langIndex == 1) return "Hallownest Tilsimlarinin Yarisini Bul";
                 return "Acquire half of Hallownest's Charms";
+            case "ZOTE_INTRO_1":
+                if (langIndex == 1) return "Ne yaptığını sanıyorsun?! Benimle avımın arasına girmeye cüret mi ediyorsun? Etrafta koşturup ayak altında dolaşmak ve bela çıkarmak senin alışkanlığın mıdır?";
+                return "Just what do you think you're doing?! You dare to come between me and my prey? Is it a habit of yours to scurry about, getting in the way and causing bother?";
+
+            case "ZOTE_INTRO_2":
+                if (langIndex == 1) return "Şunu bil, seni melez. Ben Yüce Zote, çok ünlü bir şövalyeyim. Yoluma bir daha çıkarsan, silahıma neden 'Hayat Bitiren' dediklerini anlarsın.";
+                return "Know this, cur. I am Zote the Mighty, a knight of great renown. Cross me again, and you'll find out why they call my weapon 'Life Ender'.";
+
+            case "ZOTE_EXHAUSTED_1":
+                if (langIndex == 1) return "Hala beni ne diye rahatsız ediyorsun? Ben bir Şövalyeyim. Çocukça oyunlarınla ilgilenmiyorum. Dinlenmem gerek.";
+                return "What are you still bothering me for? I'm a Knight. I'm not interested in your childish games. I need my rest.";
+
+            case "ZOTE_EXHAUSTED_2":
+                if (langIndex == 1) return "Defol! Yoksa çivimi çekeceğim...";
+                return "Begone! Lest I draw my nail...";
+
+            case "ZOTE_DREAM":
+                if (langIndex == 1) return "Aptal yaratık... yok edilemez bedenimi kemirerek çeneni körelttin. Bu zayıf şeye yenilmene şaşmamalı!";
+                return "Foolish beast... you dulled your mandibles by gnawing on my indestructible body. No wonder you were defeated by this weakling!";
+
+            case "PRESS ANY KEY TO RESPAWN" :
+                if (langIndex ==1) return "";
+                return "PRESS ANY KEY TO RESPAWN" ;
             default:
                 return key;
         }

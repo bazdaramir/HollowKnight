@@ -1,7 +1,8 @@
 package com.HollowKnight.view;
 
 import com.HollowKnight.model.App;
-import com.HollowKnight.model.AudioManager;
+import com.HollowKnight.model.UIHelper;
+import com.HollowKnight.model.manager.AudioManager;
 import com.HollowKnight.model.Translator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
