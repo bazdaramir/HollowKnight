@@ -1,4 +1,3 @@
-// Enemy.java  — full replacement
 package com.HollowKnight.model.mob;
 
 import com.HollowKnight.model.Block;

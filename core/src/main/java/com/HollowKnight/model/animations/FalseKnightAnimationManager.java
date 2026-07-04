@@ -33,79 +33,53 @@ public class FalseKnightAnimationManager {
         for (int i = 0; i <= 4; i++) idle.add(load(String.format("ui/FalseKnight/Idle_%03d.png", i)));
         idleAnim = new Animation<>(0.15f, idle, Animation.PlayMode.LOOP);
 
-
-
         Array<TextureRegion> runAntic = new Array<>();
         for (int i = 0; i <= 1; i++) runAntic.add(load(String.format("ui/FalseKnight/Run Antic_%03d.png", i)));
         runAnticAnim = new Animation<>(0.1f, runAntic, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> run = new Array<>();
         for (int i = 0; i <= 4; i++) run.add(load(String.format("ui/FalseKnight/Run_%03d.png", i)));
         runAnim = new Animation<>(0.08f, run, Animation.PlayMode.LOOP);
 
-
-
         Array<TextureRegion> attackAntic = new Array<>();
         for (int i = 0; i <= 5; i++) attackAntic.add(load(String.format("ui/FalseKnight/Attack Antic_%03d.png", i)));
         attackAnticAnim = new Animation<>(0.08f, attackAntic, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> attack = new Array<>();
         for (int i = 0; i <= 2; i++) attack.add(load(String.format("ui/FalseKnight/Attack_%03d.png", i)));
         attackAnim = new Animation<>(0.05f, attack, Animation.PlayMode.NORMAL);
 
-
-
         Array<TextureRegion> attackRec = new Array<>();
         for (int i = 0; i <= 4; i++) attackRec.add(load(String.format("ui/FalseKnight/Attack Recover_%03d.png", i)));
         attackRecoverAnim = new Animation<>(0.1f, attackRec, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> jumpAntic = new Array<>();
         jumpAntic.add(load("ui/FalseKnight/Jump Antic.png"));
         jumpAnticAnim = new Animation<>(0.1f, jumpAntic, Animation.PlayMode.NORMAL);
 
-
-
         Array<TextureRegion> jump = new Array<>();
         for (int i = 0; i <= 3; i++) jump.add(load(String.format("ui/FalseKnight/Jump_%03d.png", i)));
         jumpAnim = new Animation<>(0.1f, jump, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> jumpAttack = new Array<>();
         for (int i = 0; i <= 7; i++) jumpAttack.add(load(String.format("ui/FalseKnight/Jump Attack_%03d.png", i)));
         jumpAttackAnim = new Animation<>(0.08f, jumpAttack, Animation.PlayMode.NORMAL);
 
-
-
         Array<TextureRegion> land = new Array<>();
         for (int i = 0; i <= 4; i++) land.add(load(String.format("ui/FalseKnight/Land_%03d.png", i)));
         landAnim = new Animation<>(0.08f, land, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> stunRec = new Array<>();
         for (int i = 0; i <= 4; i++) stunRec.add(load(String.format("ui/FalseKnight/Stun Recover_%03d.png", i)));
         stunRecoverAnim = new Animation<>(0.15f, stunRec, Animation.PlayMode.NORMAL);
 
-
-
         Array<TextureRegion> deathHit = new Array<>();
         for (int i = 0; i <= 2; i++) deathHit.add(load(String.format("ui/FalseKnight/DeathHit_%03d.png", i)));
         deathHitAnim = new Animation<>(0.12f, deathHit, Animation.PlayMode.NORMAL);
 
-
-
         Array<TextureRegion> deathFall = new Array<>();
         for (int i = 0; i <= 2; i++) deathFall.add(load(String.format("ui/FalseKnight/DeathFall_%03d.png", i)));
         deathFallAnim = new Animation<>(0.12f, deathFall, Animation.PlayMode.NORMAL);
-
-
 
         Array<TextureRegion> deathLand = new Array<>();
         for (int i = 0; i <= 10; i++) deathLand.add(load(String.format("ui/FalseKnight/DeathLand_%03d.png", i)));
@@ -158,9 +132,7 @@ public class FalseKnightAnimationManager {
 
         TextureRegion frame = new TextureRegion(baseFrame);
 
-        if (boss.isFacingRight && !frame.isFlipX()) {
-            frame.flip(true, false);
-        } else if (!boss.isFacingRight && frame.isFlipX()) {
+        if (!boss.isFacingRight) {
             frame.flip(true, false);
         }
 

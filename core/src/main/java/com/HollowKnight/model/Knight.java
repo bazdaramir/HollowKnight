@@ -214,6 +214,9 @@ public class Knight {
             boss.takeDamage(1);
             hitSomething = true;
         }
+        if (zote != null && slashHitbox.overlaps(zote.hitbox)) {
+            zote.takeDamage();
+        }
 
 
         if (hitSomething) {

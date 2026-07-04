@@ -8,9 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 
-// اسموت نیست
-// باید بشینم کلی دیباگ بکنم که کلا یکم نرم و تمیز تر باشه باس بازی
-
 public class FalseKnight {
     public Vector2 position;
     public Vector2 velocity;
@@ -31,12 +28,18 @@ public class FalseKnight {
     private int recentHits = 0;
     private int lastMove = -1;
 
+    private float contactDamageCooldown = 0f;
+    private static final float CONTACT_DAMAGE_INTERVAL = 0.5f;
+
     private final float gravity = 1500f;
     private float moveSpeed = 200f;
     private final float fullHitboxHeight = 160f;
     private final float stunHitboxHeight = 80f;
     private boolean onGround = false;
     private final Random random = new Random();
+
+
+    private static final float GROUND_ACCEL = 1400f;
 
     public FalseKnight(float startX, float startY) {
         position = new Vector2(startX, startY);
@@ -45,6 +48,8 @@ public class FalseKnight {
     }
 
     public void update(float delta, Array<Block> blocks, Knight knight) {
+        if (contactDamageCooldown > 0) contactDamageCooldown -= delta;
+
         if (isDead) {
             applyPhysics(delta, blocks);
             processDeathSequence(delta);
@@ -55,7 +60,7 @@ public class FalseKnight {
         if (hitCounterTimer <= 0) recentHits = 0;
 
         applyPhysics(delta, blocks);
-        processAI(delta, knight);
+        processAI(delta, knight, blocks);
         checkContactDamage(knight);
     }
 
@@ -82,9 +87,9 @@ public class FalseKnight {
         }
     }
 
-    private void processAI(float delta, Knight knight) {
+    private void processAI(float delta, Knight knight, Array<Block> blocks) {
         if (station == FalseKnightStation.STUN) {
-            velocity.x = 0;
+            moveTowardsHorizontal(0f, delta);
             stunTimer -= delta;
             if (stunTimer <= 0) {
                 station = FalseKnightStation.STUN_RECOVER;
@@ -98,7 +103,7 @@ public class FalseKnight {
             if (stateTimer <= 0) {
                 isPhase2 = true;
                 moveSpeed = 280f;
-                restoreFullHitbox();
+                restoreFullHitbox(blocks);
                 station = FalseKnightStation.IDLE;
                 stateTimer = 0.5f;
             }
@@ -111,7 +116,7 @@ public class FalseKnight {
 
         switch (station) {
             case IDLE:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0 && knight != null) {
                     decideNextMove(knight);
@@ -119,7 +124,7 @@ public class FalseKnight {
                 break;
 
             case ATTACK_ANTIC:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.ATTACK;
@@ -128,7 +133,7 @@ public class FalseKnight {
                 break;
 
             case RUN_ANTIC:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.RUN;
@@ -137,24 +142,24 @@ public class FalseKnight {
                 break;
 
             case JUMP_ANTIC:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.JUMP;
-                    velocity.y = 900f; // پرش کمی نرم‌تر
-                    velocity.x = isFacingRight ? 250f : -250f;
+                    velocity.y = 900f;
+                    velocity.x = isFacingRight ? 250f : -250f; // launch impulse: instant, not eased
                     onGround = false;
                 }
                 break;
 
             case RUN:
-                velocity.x = isFacingRight ? moveSpeed : -moveSpeed;
+                moveTowardsHorizontal(isFacingRight ? moveSpeed : -moveSpeed, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) resetToIdle();
                 break;
 
             case ATTACK:
-                velocity.x = isFacingRight ? 80f : -80f;
+                moveTowardsHorizontal(isFacingRight ? 80f : -80f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.ATTACK_RECOVER;
@@ -163,7 +168,7 @@ public class FalseKnight {
                 break;
 
             case ATTACK_RECOVER:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) resetToIdle();
                 break;
@@ -184,12 +189,22 @@ public class FalseKnight {
 
             case LAND:
             case JUMP_ATTACK:
-                velocity.x = 0;
+                moveTowardsHorizontal(0f, delta);
                 stateTimer -= delta;
                 if (stateTimer <= 0) resetToIdle();
                 break;
             default:
                 break;
+        }
+    }
+
+
+    private void moveTowardsHorizontal(float targetVx, float delta) {
+        float maxDelta = GROUND_ACCEL * delta;
+        if (velocity.x < targetVx) {
+            velocity.x = Math.min(velocity.x + maxDelta, targetVx);
+        } else if (velocity.x > targetVx) {
+            velocity.x = Math.max(velocity.x - maxDelta, targetVx);
         }
     }
 
@@ -233,12 +248,11 @@ public class FalseKnight {
             case 3:
                 station = FalseKnightStation.JUMP_ANTIC;
                 stateTimer = 0.1f;
-                onGround = false;
                 break;
             case 5:
                 station = FalseKnightStation.DEFENSIVE_LEAP;
                 velocity.y = 600f;
-                velocity.x = isFacingRight ? -350f : 350f;
+                velocity.x = isFacingRight ? -350f : 350f; // launch impulse: instant
                 onGround = false;
                 break;
         }
@@ -250,9 +264,11 @@ public class FalseKnight {
     }
 
     private void checkContactDamage(Knight knight) {
-        if (knight != null && hitbox.overlaps(knight.hitbox) && !isDead && station != FalseKnightStation.STUN) {
+        if (knight != null && hitbox.overlaps(knight.hitbox) && !isDead
+            && station != FalseKnightStation.STUN && contactDamageCooldown <= 0) {
             float bossCenterX = position.x + hitbox.width / 2f;
             knight.takeDamage(2, bossCenterX);
+            contactDamageCooldown = CONTACT_DAMAGE_INTERVAL;
         }
     }
 
@@ -278,9 +294,20 @@ public class FalseKnight {
         }
     }
 
-    private void restoreFullHitbox() {
+    private void restoreFullHitbox(Array<Block> blocks) {
         hitbox.height = fullHitboxHeight;
         hitbox.y = position.y;
+
+        if (blocks == null) return;
+        for (Block block : blocks) {
+            if (block.isSolid && hitbox.overlaps(block.rect)) {
+                float overlapTop = (hitbox.y + hitbox.height) - block.rect.y;
+                if (overlapTop > 0) {
+                    position.y -= overlapTop;
+                    hitbox.y = position.y;
+                }
+            }
+        }
     }
 
     private void applyPhysics(float delta, Array<Block> blocks) {
