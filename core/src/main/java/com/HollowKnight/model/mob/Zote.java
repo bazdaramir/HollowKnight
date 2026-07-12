@@ -4,6 +4,7 @@ import com.HollowKnight.model.Block;
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.enums.ZoteStation;
+import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -53,7 +54,6 @@ public class Zote {
 
         if (isAngry) {
             angryTimer -= delta;
-
             if (knight != null) {
                 isFacingRight = knight.position.x > position.x;
                 velocity.x = isFacingRight ? RUN_SPEED : -RUN_SPEED;
@@ -64,6 +64,7 @@ public class Zote {
                 velocity.x = 0;
                 station = ZoteStation.FALL;
                 stateTimer = 0.6f;
+                AudioManager.getInstance().ZoteSoundHandler("fall");
             }
         }
 
@@ -74,6 +75,7 @@ public class Zote {
                 if (station == ZoteStation.FALL) {
                     station = ZoteStation.GET_UP;
                     stateTimer = 0.6f;
+                    AudioManager.getInstance().ZoteSoundHandler("getup");
                 } else {
                     station = ZoteStation.IDLE;
                 }
@@ -160,6 +162,8 @@ public class Zote {
     }
 
     private void playZoteGrumbleSFX() {
+        int randomTalk = com.badlogic.gdx.math.MathUtils.random(0, 4);
+        AudioManager.getInstance().ZoteSoundHandler(String.valueOf(randomTalk));
     }
 
     public void takeDamage() {
@@ -167,8 +171,10 @@ public class Zote {
 
         isInteracting = false;
         isAngry = true;
-        angryTimer = 3.0f;
+        angryTimer = 7.3f;
         station = ZoteStation.ATTACK;
+
+        AudioManager.getInstance().ZoteSoundHandler("attack");
 
         velocity.y = 350f;
         onGround = false;

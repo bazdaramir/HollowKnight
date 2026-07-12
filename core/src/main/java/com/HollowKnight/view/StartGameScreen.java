@@ -1,11 +1,12 @@
 package com.HollowKnight.view;
 
+import com.HollowKnight.data.GameData;
+import com.HollowKnight.data.SaveGameManager;
+import com.HollowKnight.model.App;
+import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.UIHelper;
 import com.HollowKnight.model.animations.AnimatedImage;
-import com.HollowKnight.model.App;
 import com.HollowKnight.model.manager.AudioManager;
-import com.HollowKnight.model.manager.GameDataManager;
-import com.HollowKnight.model.Translator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -93,12 +94,13 @@ public class StartGameScreen implements Screen {
         Table wrapperTable = new Table();
 
         String slotText = Translator.getText("NEW GAME");
-        boolean isNewGame = true;
+        boolean isNewGame = !SaveGameManager.getInstance().hasSave(slotIndex);
 
-        GameDataManager.SaveData data = GameDataManager.getInstance().saveData;
-        if (data != null && data.recentGames.size() > slotIndex) {
-            slotText = data.recentGames.get(slotIndex).playerName;
-            isNewGame = false;
+        if (!isNewGame) {
+            GameData savedData = SaveGameManager.getInstance().loadGame(slotIndex);
+            int minutes = (int) (savedData.gameTimer / 60);
+            int seconds = (int) (savedData.gameTimer % 60);
+            slotText = String.format("Saved Game - %02d:%02d", minutes, seconds);
         }
 
         final AnimatedImage leftPointer = new AnimatedImage(UIHelper.getLeftPointerAnim(), true);
@@ -139,7 +141,6 @@ public class StartGameScreen implements Screen {
         wrapperTable.add(rightPointer).size(40, 40).padLeft(15);
 
         wrapperTable.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.enabled);
-        final boolean finalIsNewGame = isNewGame;
 
         wrapperTable.addListener(new ClickListener() {
             @Override
@@ -178,11 +179,9 @@ public class StartGameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AudioManager.getInstance().playClickSound();
-                if (finalIsNewGame) {
-                    transitionToScreen(new GameScreen(app));
-                } else {
-                    System.out.println("Loading game slot: " + slotIndex);
-                }
+
+                AudioManager.getInstance().pausebackGroundMusic();
+                transitionToScreen(new GameScreen(app, slotIndex));
             }
         });
 

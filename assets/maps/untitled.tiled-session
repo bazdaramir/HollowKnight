@@ -1,0 +1,757 @@
+{
+    "activeFile": "FORGOTTEN_CROSSROADS.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "#b1": {
+            "scaleInDock": 0.0625
+        },
+        "#slug_floor": {
+            "scaleInDock": 1
+        },
+        "111.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "BOSS_ROOM.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1942,
+                "y": 1950
+            }
+        },
+        "BOSS_ROOM.tmx#1": {
+            "scaleInDock": 1
+        },
+        "BOSS_ROOM.tmx#2": {
+            "scaleInDock": 1
+        },
+        "BOSS_ROOM.tmx#3": {
+            "scaleInDock": 0.75
+        },
+        "BOSS_ROOM.tmx#5": {
+            "scaleInDock": 0.25
+        },
+        "BOSS_ROOM.tmx#Mini_totems_0003_4": {
+            "scaleInDock": 0.33
+        },
+        "BOSS_ROOM.tmx#Nailmasters_FG_pieces_0000_Layer-44": {
+            "scaleInDock": 1
+        },
+        "BOSS_ROOM.tmx#Nailmasters_FG_pieces_0004_Layer-54": {
+            "scaleInDock": 1
+        },
+        "BOSS_ROOM.tmx#credits flash_round": {
+            "scaleInDock": 0.75
+        },
+        "BOSS_ROOM.tmx#layer": {
+            "scaleInDock": 0.75
+        },
+        "BOSS_ROOM.tmx#mask": {
+            "scaleInDock": 1
+        },
+        "BOSS_ROOM.tmx#nailmaster_03_0005_curtain_right": {
+            "scaleInDock": 0.25
+        },
+        "BOSS_ROOM.tmx#wd_skull_01_0000_Layer-1_skull_pile": {
+            "scaleInDock": 0.75
+        },
+        "BOSS_ROOM.tmx#wd_string_FG_04_0002_Layer-3": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx": {
+            "expandedObjectLayers": [
+                8,
+                13
+            ],
+            "scale": 0.12,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 3933.3333333333335,
+                "y": 2495.833333333333
+            }
+        },
+        "FORGOTTEN_CROSSROADS.tmx#03001": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#1": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#2": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#4": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0001_h": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0004_h": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0008_f": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0019_b": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0020_a": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#BG_vines_0024_a": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#additional_destruction_0000_a": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#arch_pillar_02": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#background1": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#big_lamp": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#bone_deep_0018_Layer-142": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#bone_spike_03": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#bone_spike_06": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#break0000": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#break_floor_0002_c4": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#break_floor_0008_a2": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#break_floor_0009_a1": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#broken_bench_02": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#cd_highway_break_back": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#cd_spikes_BG": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#centipede_pit_FG0000": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#centipede_pit_FG0005": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#cocoon_base_01": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#collapser_long": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#cr10_break_wall": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#cr21_break_wall": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#credits flash_round": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#deep_bridge_back": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#deep_roof_break_rock": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#deepnest_spider_pieces_0010_a": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#egg_pile_0001_06": {
+            "scaleInDock": 0.5
+        },
+        "FORGOTTEN_CROSSROADS.tmx#egg_pile_0002_05": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#egg_pile_0003_04": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_back": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_base": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_chain": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_elev_top": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_mid_back": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#elev_wall": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#fall_BG_04": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#fall_BG_07": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#fall_BG_11": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#floor_layered_0002_02": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#floor_pool": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#floor_rubble_01": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#fung_root_04": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#hot_spring_layers_0072_01-copy-59": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#hot_spring_layers_0076_01-copy-66": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#lamp_cave_01": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#msk_angle_stalactites": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#nailsmith_light": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#one_way_fung": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#platform_long": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#platform_short": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#roof_FG_rock_07_0003_03": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#spark": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#tollbooth_bottom_02": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS.tmx#wd_FG_string_04": {
+            "scaleInDock": 1
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2952,
+                "y": 3000
+            }
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#BG_vines_0001_h": {
+            "scaleInDock": 0.75
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#BG_vines_0008_f": {
+            "scaleInDock": 0.5
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#BG_vines_0019_b": {
+            "scaleInDock": 0.75
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#BG_vines_0020_a": {
+            "scaleInDock": 0.75
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#break0000": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#break_floor_0002_c4": {
+            "scaleInDock": 0.33
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#break_floor_0008_a2": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#cd_highway_break_back": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#cd_spikes_BG": {
+            "scaleInDock": 0.33
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#centipede_pit_FG0000": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#cocoon_base_01": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#cr10_break_wall": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#cr21_break_wall": {
+            "scaleInDock": 0.33
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#deep_roof_break_rock": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#deepnest_spider_pieces_0010_a": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#egg_pile_0001_06": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#elev_back": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#elev_base": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#elev_chain": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#elev_elev_top": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#elev_wall": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#hot_spring_layers_0072_01-copy-59": {
+            "scaleInDock": 0.0625
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#hot_spring_layers_0076_01-copy-66": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#msk_angle_stalactites": {
+            "scaleInDock": 0.0625
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#platform_long": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#platform_short": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#roof_FG_rock_07_0003_03": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#tollbooth_bottom_02": {
+            "scaleInDock": 0.06
+        },
+        "FORGOTTEN_CROSSROADS_making.tmx#wd_FG_string_04": {
+            "scaleInDock": 0.06
+        },
+        "ForgottenCrossroads.tsx": {
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 0.25
+        },
+        "GREEN_PATH.tmx": {
+            "expandedObjectLayers": [
+                2,
+                11
+            ],
+            "scale": 0.25,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 1296,
+                "y": 3878
+            }
+        },
+        "GREEN_PATH.tmx#2": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#4": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#arch_pillar_02": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#bone_deep_0018_Layer-142": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#break_floor_0009_a1": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#cd_highway_break_back": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#fall_BG_11": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#floor_layered_0002_02": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#fung_root_04": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#fungd_spikes_07": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#fungd_spikes_09_FG": {
+            "scaleInDock": 0.5
+        },
+        "GREEN_PATH.tmx#nailsmith_light": {
+            "scaleInDock": 1
+        },
+        "GREEN_PATH.tmx#slug_floor": {
+            "scaleInDock": 1
+        },
+        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx": {
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "GreenPath.tsx": {
+            "scaleInDock": 1
+        },
+        "SpriteAtlasTexture-Acid_waterfall_02-1024x512-fmt12.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "acid_waterfall20000.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "acid_waterfall20001.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "acid_waterfall20002.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "acid_waterfall20003.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "acid_waterfall20004.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40000.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40001.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40002.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40003.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40004.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "black_grass40007.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "breakablePath.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "breakablePath_000.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "broken_bench_02.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "cd_spikes_BG.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "collapser_long.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "collapser_short.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "dream_BG_plats_0002_2.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 0.25
+        },
+        "fungd_arch_back_02.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.25
+        },
+        "main_orb_0001_egg_back.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "map1.tmx": {
+            "expandedObjectLayers": [
+                8
+            ],
+            "scale": 0.25,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 4186,
+                "y": 1646
+            }
+        },
+        "map1.tmx#03001": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map1.tmx#1": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#2": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#4": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#All": {
+            "dynamicWrapping": true
+        },
+        "map1.tmx#Area_Forgotten Crossroads": {
+            "dynamicWrapping": true,
+            "scaleInEditor": 1
+        },
+        "map1.tmx#BG_vines_0004_h": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#BG_vines_0020_a": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#BG_vines_0024_a": {
+            "scaleInDock": 0.75
+        },
+        "map1.tmx#additional_destruction_0000_a": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#arch_pillar_02": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "map1.tmx#background1": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#big_lamp": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#bone_deep_0018_Layer-142": {
+            "scaleInDock": 0.25
+        },
+        "map1.tmx#bone_spike_03": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#bone_spike_06": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#break_floor_0009_a1": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#broken_bench_02": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#cd_highway_break_back": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#centipede_pit_FG0005": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#collapser_long": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#cr10_break_wall": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#credits flash_round": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#deep_bridge_back": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#deep_roof_break_rock": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#egg_pile_0002_05": {
+            "scaleInDock": 0.33
+        },
+        "map1.tmx#egg_pile_0003_04": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#elev_mid_back": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#fall_BG_04": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#fall_BG_07": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#fall_BG_11": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#floor_layered_0002_02": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75
+        },
+        "map1.tmx#floor_pool": {
+            "scaleInDock": 1.5
+        },
+        "map1.tmx#floor_rubble_01": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#fung_root_04": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#hi": {
+            "dynamicWrapping": true
+        },
+        "map1.tmx#lamp_cave_01": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map1.tmx#nailsmith_light": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map1.tmx#one_way_fung": {
+            "scaleInDock": 0.5
+        },
+        "map1.tmx#spark": {
+            "scaleInDock": 1
+        },
+        "map1.tmx#tilesets": {
+            "dynamicWrapping": true,
+            "scaleInEditor": 1
+        },
+        "map2.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 0.5138,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 4000.5838847800696,
+                "y": 3700.8563643441025
+            }
+        },
+        "map2.tmx#2": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#4": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#arch_pillar_02": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#bone_deep_0018_Layer-142": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#break_floor_0009_a1": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#cd_highway_break_back": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#fall_BG_11": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#floor_layered_0002_02": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#fung_root_04": {
+            "scaleInDock": 1
+        },
+        "map2.tmx#nailsmith_light": {
+            "scaleInDock": 1
+        },
+        "particle.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 0.5
+        },
+        "spritesheet (1).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "spritesheet (3).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "spritesheet (5).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "spritesheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "frame.defaultDuration": 90,
+    "last.externalTilesetPath": "C:/Users/amirh/Desktop/Hollow/HollowKnight/assets/maps",
+    "last.imagePath": "C:/Users/amirh/Desktop/Hollow/HollowKnight/assets/maps",
+    "map.height": 1000,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": "3",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 1000,
+    "openFiles": [
+        "BOSS_ROOM.tmx",
+        "GREEN_PATH.tmx",
+        "FORGOTTEN_CROSSROADS.tmx",
+        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "BOSS_ROOM.tmx",
+        "GREEN_PATH.tmx",
+        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx",
+        "FORGOTTEN_CROSSROADS.tmx",
+        "breakablePath.tsx",
+        "ForgottenCrossroads.tsx",
+        "spritesheet (1).tsx",
+        "dream_BG_plats_0002_2.tsx",
+        "111.tsx",
+        "spritesheet (5).tsx",
+        "spritesheet.tsx",
+        "spritesheet (3).tsx"
+    ],
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 246,
+        "width": 123
+    },
+    "tileset.type": 0
+}

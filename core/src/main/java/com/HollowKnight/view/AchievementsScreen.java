@@ -1,10 +1,11 @@
 package com.HollowKnight.view;
 
+import com.HollowKnight.data.GameDataManager;
+import com.HollowKnight.model.App;
+import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.UIHelper;
 import com.HollowKnight.model.animations.AnimatedImage;
-import com.HollowKnight.model.App;
-import com.HollowKnight.model.manager.GameDataManager;
-import com.HollowKnight.model.Translator;
+import com.HollowKnight.model.manager.AchievementManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -44,8 +45,6 @@ public class AchievementsScreen implements Screen {
         stage = new Stage(new FitViewport(1920, 1080));
         Gdx.input.setInputProcessor(stage);
 
-        // افکت دونه های ریزی کع پایین میان
-        // مثل مه و در واقع fog
         Image background = new Image(new TextureRegion(new Texture(Gdx.files.internal("ui/MainMenu/background.png"))));
         background.setFillParent(true);
         stage.addActor(background);
@@ -111,18 +110,11 @@ public class AchievementsScreen implements Screen {
         Table contentTable = new Table();
         contentTable.top();
 
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0016_heart_01.png", "PROTECTED", "Acquire 4 Mask Shards", "ACH_PROTECTED");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0016_heart_01.png", "MASKED", "Acquire all Mask Shards", "ACH_MASKED");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0020_charms_half.png", "CHARMED", "Acquire your first Charm", "ACH_CHARMED");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0020_charms_half.png", "ENCHANTED", "Acquire half of Hallownest's Charms", "ACH_ENCHANTED");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0019_charms_full.png", "BLESSED", "Acquire all Charms and receive Salubra's blessing", "ACH_BLESSED");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0018_vessel_01.png", "SOULFUL", "Acquire 3 Vessel Fragments", "ACH_SOULFUL");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0015_vessels_full.png", "WORLDSOUL", "Acquire all Vessel Fragments", "ACH_WORLDSOUL");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0000_100_complete.png", "COMPLETIONIST", "Achieve 100% Game Completion", "ACH_COMPLETIONIST");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0001_all_maps.png", "CARTOGRAPHER", "Acquire a Map of each area", "ACH_MAPS");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0006_ending_A.png", "THE HOLLOW KNIGHT", "Defeat the Hollow Knight and achieve Ending A", "ACH_ENDING_A");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0005_ending_B.png", "SEALED SIBLINGS", "Achieve Ending B with Hornet sealed inside", "ACH_ENDING_B");
-        addAchievementRow(contentTable, "ui/Achievements/achievement__0004_ending_C.png", "DREAM NO MORE", "Defeat the Radiance and achieve Ending C", "ACH_ENDING_C");
+        addAchievementRow(contentTable, "ui/Achievements/True Hunter.png", "TRUE HUNTER", Translator.getText("True Hunter"), AchievementManager.TRUE_HUNTER);
+        addAchievementRow(contentTable, "ui/Achievements/achievement__0020_charms_half.png", "CHARMED", Translator.getText("Charmed"), AchievementManager.CHARMED);
+        addAchievementRow(contentTable, "ui/Achievements/achievement__0018_vessel_01.png", "SOUL MASTER", Translator.getText("Soul Master"), AchievementManager.SOUL_MASTER);
+        addAchievementRow(contentTable, "ui/Achievements/Defeat Boss.png", "DEFEAT BOSS", Translator.getText("Defeat Boss"), AchievementManager.DEFEAT_BOSS);
+        addAchievementRow(contentTable, "ui/Achievements/achievement__0001_all_maps.png", "ZOTE", Translator.getText("Zote"), AchievementManager.ZOTE);
 
         Table backBtn = UIHelper.createGlowButton(Translator.getText("BACK"), btnStyle, 460, 70, new Runnable() {
             @Override
@@ -132,7 +124,6 @@ public class AchievementsScreen implements Screen {
         });
         contentTable.add(backBtn).center().padTop(60).padBottom(150).row();
 
-        // اسکرول
         ScrollPane.ScrollPaneStyle scrollStyle = new ScrollPane.ScrollPaneStyle();
         Texture knobTex = new Texture(Gdx.files.internal("ui/MainMenu/scrollbar_fleur_new.png"));
         scrollStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(knobTex));

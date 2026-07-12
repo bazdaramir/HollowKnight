@@ -3,6 +3,7 @@ package com.HollowKnight.model.mob;
 import com.HollowKnight.model.Block;
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.enums.HuskHornheadStation;
+import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.utils.Array;
 
 public class HuskHornhead extends Enemy {
@@ -22,8 +23,17 @@ public class HuskHornhead extends Enemy {
     private HuskHornheadStation station = HuskHornheadStation.WALK;
     private float stateTimer = 0f;
 
+    private float walkSoundTimer = 0f;
+
     public HuskHornhead(float startX, float startY) {
         super(startX, startY, WIDTH, HEIGHT, MOVE_SPEED, MAX_HEALTH, CONTACT_DAMAGE, false, 0f);
+    }
+
+    private boolean isOnScreen(Knight knight) {
+        if (knight == null) return false;
+        float distX = Math.abs(position.x - knight.position.x);
+        float distY = Math.abs(position.y - knight.position.y);
+        return distX < 1100f && distY < 700f;
     }
 
     @Override
@@ -39,6 +49,10 @@ public class HuskHornhead extends Enemy {
                         isFacingRight = knightCenter > myCenter;
                     }
                     station = HuskHornheadStation.LUNGE;
+
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().HuskHornHeadSoundHandler("run");
+                    }
                 }
                 return;
 
@@ -71,6 +85,14 @@ public class HuskHornhead extends Enemy {
                     return;
                 }
                 doPatrol(blocks, delta);
+
+                walkSoundTimer -= delta;
+                if (walkSoundTimer <= 0 && Math.abs(velocity.x) > 0.1f) {
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().HuskHornHeadSoundHandler("walk");
+                    }
+                    walkSoundTimer = 0.6f;
+                }
         }
     }
 

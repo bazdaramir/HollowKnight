@@ -14,5 +14,6 @@ public enum KnightState {
     DOUBLE_JUMPING,
     LANDING,
     FOCUS,
-    CAST_SPELL;
+    CAST_SPELL,
+    DOWN_SLASH;
 }

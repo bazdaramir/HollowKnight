@@ -21,9 +21,10 @@ public class KnightAnimationManager {
     private Animation<TextureRegion> landingAnim;
     private Animation<TextureRegion> slashAnim;
     private Animation<TextureRegion>            idleFrame;
-
     private Animation<TextureRegion> idleHurtAnim;
     private Animation<TextureRegion> deathAnim;
+    private Animation<TextureRegion> downSlashknight;
+    private Animation<TextureRegion> spell;
 
     private KnightState previousState  = null;
     private float       stateStartTime = 0f;
@@ -119,6 +120,18 @@ public class KnightAnimationManager {
         deathAnim = new Animation<>(0.08f, death, Animation.PlayMode.NORMAL);
 
 
+        Array<TextureRegion> downSlash = new Array<>();
+        for (int i = 0; i <= 4; i++) {
+            downSlash.add(load(String.format("ui/Knight/downSlashknight/DownSlash_%03d.png", i)));
+        }
+        downSlashknight = new Animation<>(0.1f, downSlash, Animation.PlayMode.NORMAL);
+
+        Array<TextureRegion> spellframe = new Array<>();
+        for (int i = 0; i <= 6; i++) {
+            spellframe.add(load(String.format("ui/Knight/scream/Scream_%03d.png", i)));
+
+        }
+        spell = new Animation<>(0.23f, spellframe, Animation.PlayMode.NORMAL);
 
     }
 
@@ -151,8 +164,7 @@ public class KnightAnimationManager {
                 frame = doubleJumpAnim.getKeyFrame(t, false);
                 break;
             case CAST_SPELL:
-                frame = idleFrame.getKeyFrame(t, true);
-
+                frame = spell.getKeyFrame(t, true);
                 break;
 
             case WALL_SLIDING:
@@ -173,7 +185,9 @@ public class KnightAnimationManager {
                 frame = slashAnim.getKeyFrame(t, true);
                 break;
 
-
+            case DOWN_SLASH:
+                frame = downSlashknight.getKeyFrame(t, true);
+                break;
             case IDLE:
             default:
                 if (knight.isFacingRight) {

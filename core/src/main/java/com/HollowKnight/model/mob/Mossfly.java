@@ -3,6 +3,7 @@ package com.HollowKnight.model.mob;
 import com.HollowKnight.model.Block;
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.enums.MossflyStation;
+import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -68,6 +69,7 @@ public class Mossfly extends Enemy {
                 } else {
                     velocity.set(0, 0);
                 }
+                AudioManager.getInstance().MossflySoundHandler("fly");
                 break;
         }
     }
@@ -77,7 +79,6 @@ public class Mossfly extends Enemy {
         if (station == MossflyStation.SHAKE) {
             super.applyGravity(delta);
         } else {
-            // جاذبه رو خنثی میکنیم وفتی بیدار شده و بوته نیستش
         }
     }
 

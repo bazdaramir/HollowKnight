@@ -3,6 +3,7 @@ package com.HollowKnight.model.mob;
 import com.HollowKnight.model.Block;
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.enums.CrystalGuardianStation;
+import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.utils.Array;
 
 public class CrystalGuardian extends Enemy {
@@ -30,6 +31,13 @@ public class CrystalGuardian extends Enemy {
         this.startX = startX;
     }
 
+    private boolean isOnScreen(Knight knight) {
+        if (knight == null) return false;
+        float distX = Math.abs(position.x - knight.position.x);
+        float distY = Math.abs(position.y - knight.position.y);
+        return distX < 1100f && distY < 700f;
+    }
+
     @Override
     protected void decideMovement(float delta, Array<Block> blocks, Knight knight) {
         if (idleCooldown > 0) idleCooldown -= delta;
@@ -40,6 +48,12 @@ public class CrystalGuardian extends Enemy {
                 stateTimer -= delta;
                 if (stateTimer <= 0) {
                     fireLaser(knight);
+
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().CrystallsSoundHandler("laser");
+                        AudioManager.getInstance().CrystallsSoundHandler("run");
+                    }
+
                     station = CrystalGuardianStation.ENRAGED;
                     stateTimer = ENRAGE_DURATION;
                 }

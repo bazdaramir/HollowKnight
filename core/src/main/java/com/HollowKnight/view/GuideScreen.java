@@ -1,14 +1,10 @@
 package com.HollowKnight.view;
 
-import com.HollowKnight.model.UIHelper;
-import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.App;
 import com.HollowKnight.model.Translator;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
+import com.HollowKnight.model.UIHelper;
+import com.HollowKnight.model.animations.AnimatedImage;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -87,13 +83,13 @@ public class GuideScreen implements Screen {
         titleLabel.setFontScale(1.4f);
         mainTable.add(titleLabel).colspan(2).padBottom(10).row();
 
-        // بیلبیلک زیر تیتر
         AnimatedImage animatedHeader = new AnimatedImage(UIHelper.getHeaderAnim(), false);
         mainTable.add(animatedHeader).size(600, 150).padBottom(20).padRight(55).row();
 
 
         Table contentTable = new Table();
         contentTable.top();
+
 
         contentTable.add(new Label(Translator.getText("CONTROLS"), titleStyle)).padBottom(30).row();
         Table controlsTable = new Table();
@@ -104,24 +100,55 @@ public class GuideScreen implements Screen {
         addControlRow(controlsTable, Translator.getText("JUMP"), prefs.getInteger("key_jump", Input.Keys.Z));
         addControlRow(controlsTable, Translator.getText("ATTACK (NAIL)"), prefs.getInteger("key_attack", Input.Keys.X));
         addControlRow(controlsTable, Translator.getText("DASH"), prefs.getInteger("key_dash", Input.Keys.C));
+        addControlRow(controlsTable, Translator.getText("FOCUS / SPELL"), prefs.getInteger("key_focus", Input.Keys.A));
+        addControlRow(controlsTable, Translator.getText("INTERACT"), prefs.getInteger("key_interact", Input.Keys.E));
+        addControlRow(controlsTable, Translator.getText("INVENTORY / MAP"), prefs.getInteger("key_inventory", Input.Keys.I));
         contentTable.add(controlsTable).padBottom(40).row();
 
         addOrnament(contentTable);
 
-        //  ابیلیتی ها
+
         contentTable.add(new Label(Translator.getText("ABILITIES & SYSTEMS"), titleStyle)).padBottom(30).row();
-        addInfoRow(contentTable, Translator.getText("HEALTH (MASKS):"), Translator.getText("DESC_HEALTH"));
-        addInfoRow(contentTable, Translator.getText("SOUL VESSEL:"), Translator.getText("DESC_SOUL"));
-        addInfoRow(contentTable, Translator.getText("FOCUS (HEAL):"), Translator.getText("DESC_FOCUS"));
+
+        addInfoRow(contentTable, Translator.getText("HEALTH (MASKS):"),
+            Translator.getText("Your health is represented by Masks. Taking damage shatters a Mask.\nRest on benches or use Focus to recover lost Masks."));
+
+        addInfoRow(contentTable, Translator.getText("SOUL VESSEL:"),
+            Translator.getText("Striking enemies with your Nail gathers mystical energy called Soul.\nYou can use Soul to cast powerful Spells or heal yourself."));
+
+        addInfoRow(contentTable, Translator.getText("FOCUS (HEAL):"),
+            Translator.getText("Hold the Focus key to channel Soul and heal your shattered Masks.\nMake sure you are in a safe spot, as taking damage interrupts it."));
+
+        addInfoRow(contentTable, Translator.getText("VENGEFUL SPIRIT:"),
+            Translator.getText("Tap the Spell key to conjure a spirit that flies forward\nand deals heavy damage to all enemies in its path."));
+
+        addInfoRow(contentTable, Translator.getText("MOTHWING CLOAK:"),
+            Translator.getText("Press the Dash key to quickly evade enemy attacks\nor to dash over wide, dangerous gaps."));
 
         addOrnament(contentTable);
 
-        //  چیت ها
+
         contentTable.add(new Label(Translator.getText("CHEAT CODES"), titleStyle)).padBottom(30).row();
         Table cheatTable = new Table();
-        addInfoRow(cheatTable, Translator.getText("GOD MODE:"), Translator.getText("DESC_F1"));
-        addInfoRow(cheatTable, Translator.getText("INFINITE SOUL:"), Translator.getText("DESC_F2"));
-        addInfoRow(cheatTable, Translator.getText("ONE HIT KILL:"), Translator.getText("DESC_F3"));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: FULL HEAL"),
+            Translator.getText("Instantly restores all missing Health Masks without consuming any Soul."));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: INFINITE SOUL"),
+            Translator.getText("Fills your Soul Vessel to the maximum limit immediately."));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: GOD MODE"),
+            Translator.getText("Grants complete invulnerability to enemy attacks, spikes, and hazards."));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: NOCLIP"),
+            Translator.getText("Allows the Knight to fly freely and pass through walls, floors, and solid objects."));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: TELEPORT (TP)"),
+            Translator.getText("Warps you directly to the Boss Room or the designated spawn point."));
+
+        addInfoRow(cheatTable, Translator.getText("CHEAT: KILL ALL"),
+            Translator.getText("Instantly defeats all active enemies currently roaming in the room."));
+
         contentTable.add(cheatTable).padBottom(60).row();
 
         addOrnament(contentTable);
@@ -209,6 +236,7 @@ public class GuideScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         stage.act(delta); stage.draw();
     }
+
     @Override
     public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
     @Override

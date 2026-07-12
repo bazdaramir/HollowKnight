@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IdentityMap;
 
-/**
- * Loads Crawlid's animation strips and returns the correct frame per instance.
- */
+
 public class CrawlidAnimationManager {
 
     private final Animation<TextureRegion> walkAnim;

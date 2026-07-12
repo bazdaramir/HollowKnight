@@ -1,16 +1,11 @@
 package com.HollowKnight.view;
 
+import com.HollowKnight.model.App;
+import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.UIHelper;
 import com.HollowKnight.model.animations.AnimatedImage;
-import com.HollowKnight.model.App;
 import com.HollowKnight.model.manager.AudioManager;
-import com.HollowKnight.model.Translator;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,12 +26,20 @@ public class SettingScreen implements Screen {
     private App app;
     private Preferences prefs;
 
+
+    private final GameScreen returnToGameScreen;
+
     private Label.LabelStyle labelStyle;
     private TextButton.TextButtonStyle btnStyle;
     private Texture blackFadeTexture;
 
     public SettingScreen(App app) {
+        this(app, null);
+    }
+
+    public SettingScreen(App app, GameScreen returnToGameScreen) {
         this.app = app;
+        this.returnToGameScreen = returnToGameScreen;
         this.prefs = Gdx.app.getPreferences("HollowKnight_Settings");
     }
 
@@ -99,7 +102,7 @@ public class SettingScreen implements Screen {
                 prefs.putBoolean("sfx_on", true);
                 prefs.flush();
                 AudioManager.getInstance().setMasterVolume(1.0f);
-                transitionToScreen(new SettingScreen(app));
+                transitionToScreen(new SettingScreen(app, returnToGameScreen));
             }
         });
         contentTable.add(resetBtn).colspan(2).padBottom(40).row();
@@ -121,7 +124,15 @@ public class SettingScreen implements Screen {
         addOrnament(contentTable);
 
         Table backBtn = UIHelper.createGlowButton(Translator.getText("BACK"), btnStyle, 460, 70, new Runnable() {
-            @Override public void run() { transitionToScreen(new MainMenuScreen(app)); }
+            @Override
+            public void run() {
+                if (returnToGameScreen != null) {
+
+                    transitionToScreen(returnToGameScreen);
+                } else {
+                    transitionToScreen(new MainMenuScreen(app));
+                }
+            }
         });
         contentTable.add(backBtn).colspan(2).padBottom(150);
 
@@ -195,7 +206,7 @@ public class SettingScreen implements Screen {
                 int nextIdx = (prefs.getInteger(prefKey, 0) + 1) % Translator.LANGUAGES.length;
                 prefs.putInteger(prefKey, nextIdx); prefs.flush();
                 AudioManager.getInstance().playClickSound();
-                transitionToScreen(new SettingScreen(app));
+                transitionToScreen(new SettingScreen(app, returnToGameScreen));
 
             }
         });

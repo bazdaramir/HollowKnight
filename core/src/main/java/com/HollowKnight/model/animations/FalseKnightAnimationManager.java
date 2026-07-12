@@ -132,11 +132,12 @@ public class FalseKnightAnimationManager {
 
         TextureRegion frame = new TextureRegion(baseFrame);
 
-        if (!boss.isFacingRight) {
+        if (boss.isFacingRight) {
             frame.flip(true, false);
         }
 
         return frame;
+
     }
 
     private boolean isCombatAnimation(FalseKnightStation station) {

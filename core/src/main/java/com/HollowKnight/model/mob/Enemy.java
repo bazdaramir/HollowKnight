@@ -22,6 +22,8 @@ public class Enemy {
 
     private int health;
 
+    protected float knockbackTimer = 0f;
+
     protected float attackPauseTimer = 0f;
     protected static final float ATTACK_PAUSE_DURATION = 1f;
     protected static final float GRAVITY        = 1500f;
@@ -75,19 +77,44 @@ public class Enemy {
 
     }
 
+
     public final void update(float delta, Array<Block> blocks, Knight knight) {
         if (isDead) { deathTimer -= delta; return; }
 
         delta = Math.min(delta, MAX_DELTA_TIME);
         if (blocks == null) blocks = new Array<>();
 
+        if (knockbackTimer > 0) knockbackTimer -= delta;
         if (contactDamageTimer > 0) contactDamageTimer -= delta;
         if (attackPauseTimer > 0) attackPauseTimer -= delta;
-        decideMovement(delta, blocks, knight);
+
+        if (knockbackTimer <= 0) {
+            decideMovement(delta, blocks, knight);
+        }
+
         applyGravity(delta);
         resolveVerticalMovement(delta, blocks);
         resolveHorizontalMovement(delta, blocks);
         checkContactDamage(knight);
+    }
+
+    public void takeDamage(int amount, float sourceX) {
+        if (isDead) return;
+        health -= amount;
+        if (health <= 0) {
+            health = 0;
+            die();
+        } else {
+            knockbackTimer = 0.25f;
+            float myCenterX = position.x + hitbox.width / 2f;
+            velocity.x = (sourceX < myCenterX) ? 350f : -350f;
+            velocity.y = 250f;
+            onGround = false;
+        }
+    }
+
+    public void takeDamage(int amount) {
+        takeDamage(amount, position.x);
     }
 
     protected void decideMovement(float delta, Array<Block> blocks, Knight knight) {
@@ -321,11 +348,7 @@ public class Enemy {
         }
     }
 
-    public void takeDamage(int amount) {
-        if (isDead) return;
-        health -= amount;
-        if (health <= 0) { health = 0; die(); }
-    }
+
 
     protected void die() {
         isDead             = true;
@@ -344,5 +367,9 @@ public class Enemy {
     public boolean isTurning()         { return turnTimer > 0; }
     public boolean isResting()         { return restTimer > 0; }
     public int     getHealth()         { return health; }
+
+    public void setHealth(int health) {
+        this.health = Math.max(0, Math.min(health, maxHealth));
+    }
 
 }

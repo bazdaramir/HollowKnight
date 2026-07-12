@@ -3,6 +3,7 @@ package com.HollowKnight.model.mob;
 import com.HollowKnight.model.Block;
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.enums.FalseKnightStation;
+import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -14,10 +15,12 @@ public class FalseKnight {
     public Rectangle hitbox;
     public boolean isFacingRight = false;
 
-    private final int maxHealth = 60;
+    private final int maxHealth = 20;
     public int health = maxHealth;
     private boolean isPhase2 = false;
     public boolean isDead = false;
+    public float shakeIntensity = 0f;
+    public float shakeDuration = 0f;
 
     private FalseKnightStation station = FalseKnightStation.IDLE;
     private float stateTimer = 0f;
@@ -33,18 +36,25 @@ public class FalseKnight {
 
     private final float gravity = 1500f;
     private float moveSpeed = 200f;
-    private final float fullHitboxHeight = 160f;
+
+    private final float fullHitboxHeight = 170f;
     private final float stunHitboxHeight = 80f;
     private boolean onGround = false;
     private final Random random = new Random();
-
 
     private static final float GROUND_ACCEL = 1400f;
 
     public FalseKnight(float startX, float startY) {
         position = new Vector2(startX, startY);
         velocity = new Vector2(0, 0);
-        hitbox = new Rectangle(startX, startY, 120f, fullHitboxHeight);
+        hitbox = new Rectangle(startX, startY, 140f, fullHitboxHeight);
+    }
+
+    private boolean isOnScreen(Knight knight) {
+        if (knight == null) return false;
+        float distX = Math.abs(position.x - knight.position.x);
+        float distY = Math.abs(position.y - knight.position.y);
+        return distX < 1200f && distY < 800f;
     }
 
     public void update(float delta, Array<Block> blocks, Knight knight) {
@@ -61,6 +71,7 @@ public class FalseKnight {
 
         applyPhysics(delta, blocks);
         processAI(delta, knight, blocks);
+
         checkContactDamage(knight);
     }
 
@@ -111,7 +122,7 @@ public class FalseKnight {
         }
 
         if (knight != null && station == FalseKnightStation.IDLE) {
-            isFacingRight = (knight.position.x > position.x);
+            isFacingRight = (knight.position.x + (knight.hitbox.width / 2f) > position.x + (hitbox.width / 2f));
         }
 
         switch (station) {
@@ -147,8 +158,12 @@ public class FalseKnight {
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.JUMP;
                     velocity.y = 900f;
-                    velocity.x = isFacingRight ? 250f : -250f; // launch impulse: instant, not eased
+                    velocity.x = isFacingRight ? 250f : -250f;
                     onGround = false;
+
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().False_KnightSoundHandler("false_knight_jump");
+                    }
                 }
                 break;
 
@@ -164,6 +179,13 @@ public class FalseKnight {
                 if (stateTimer <= 0) {
                     station = FalseKnightStation.ATTACK_RECOVER;
                     stateTimer = isPhase2 ? 0.36f : 0.5f;
+
+                    shakeIntensity = 10f;
+                    shakeDuration = 0.3f;
+
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().False_KnightSoundHandler("false_knight_strike_ground");
+                    }
                 }
                 break;
 
@@ -177,6 +199,13 @@ public class FalseKnight {
             case DEFENSIVE_LEAP:
                 if (onGround && velocity.y <= 0) {
                     velocity.x = 0;
+                    shakeIntensity = 15f;
+                    shakeDuration = 0.45f;
+
+                    if (isOnScreen(knight)) {
+                        AudioManager.getInstance().False_KnightSoundHandler("false_knight_land");
+                    }
+
                     if (station == FalseKnightStation.JUMP && isPhase2) {
                         station = FalseKnightStation.JUMP_ATTACK;
                         stateTimer = 0.64f / 1.4f;
@@ -197,7 +226,6 @@ public class FalseKnight {
                 break;
         }
     }
-
 
     private void moveTowardsHorizontal(float targetVx, float delta) {
         float maxDelta = GROUND_ACCEL * delta;
@@ -232,10 +260,10 @@ public class FalseKnight {
         }
 
         lastMove = chosenMove;
-        executeMove(chosenMove);
+        executeMove(chosenMove, knight);
     }
 
-    private void executeMove(int move) {
+    private void executeMove(int move, Knight knight) {
         switch (move) {
             case 1:
                 station = FalseKnightStation.ATTACK_ANTIC;
@@ -252,8 +280,12 @@ public class FalseKnight {
             case 5:
                 station = FalseKnightStation.DEFENSIVE_LEAP;
                 velocity.y = 600f;
-                velocity.x = isFacingRight ? -350f : 350f; // launch impulse: instant
+                velocity.x = isFacingRight ? -350f : 350f;
                 onGround = false;
+
+                if (isOnScreen(knight)) {
+                    AudioManager.getInstance().False_KnightSoundHandler("false_knight_roll");
+                }
                 break;
         }
     }
@@ -264,10 +296,32 @@ public class FalseKnight {
     }
 
     private void checkContactDamage(Knight knight) {
-        if (knight != null && hitbox.overlaps(knight.hitbox) && !isDead
-            && station != FalseKnightStation.STUN && contactDamageCooldown <= 0) {
+        if (knight == null || isDead || station == FalseKnightStation.STUN || contactDamageCooldown > 0) {
+            return;
+        }
+
+        boolean isHit = false;
+
+        if (hitbox.overlaps(knight.hitbox)) {
+            isHit = true;
+        }
+
+        if (!isHit && (station == FalseKnightStation.ATTACK || station == FalseKnightStation.JUMP_ATTACK)) {
+            float maceWidth = 250f;
+            float maceHeight = 2000f;
+            float maceX = isFacingRight ? (position.x + hitbox.width) : (position.x - maceWidth);
+            float maceY = position.y;
+
+            Rectangle maceHitbox = new Rectangle(maceX, maceY, maceWidth, maceHeight);
+
+            if (maceHitbox.overlaps(knight.hitbox)) {
+                isHit = true;
+            }
+        }
+
+        if (isHit) {
             float bossCenterX = position.x + hitbox.width / 2f;
-            knight.takeDamage(2, bossCenterX);
+            knight.takeDamage(1, bossCenterX);
             contactDamageCooldown = CONTACT_DAMAGE_INTERVAL;
         }
     }
@@ -291,6 +345,8 @@ public class FalseKnight {
             station = FalseKnightStation.DEATH_HIT;
             deathSeqTimer = 0.36f;
             velocity.x = 0;
+
+            AudioManager.getInstance().False_KnightSoundHandler("false_knight_damage_armour_final");
         }
     }
 

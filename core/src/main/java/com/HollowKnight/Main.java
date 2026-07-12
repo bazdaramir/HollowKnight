@@ -1,7 +1,8 @@
 package com.HollowKnight;
 
-import com.HollowKnight.model.App;
 import com.HollowKnight.view.GameScreen;
+import com.HollowKnight.model.*;
+
 import com.HollowKnight.view.MainMenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -44,7 +45,7 @@ public class Main extends Game {
         originalPixmap.dispose();
         cursorPixmap.dispose();
 
-        setScreen(new GameScreen(app));
+        setScreen(new MainMenuScreen(app));
     }
 
     @Override
