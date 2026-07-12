@@ -19,7 +19,7 @@ public class AudioManager {
     private Music Green_path_background;
     private Music DeathPopUp;
     private Music Boss_room;
-
+    private Music BossVictoryMusic;
     // Enemy
     private Sound crawler;
     private Sound lasershoot;
@@ -90,6 +90,10 @@ public class AudioManager {
 
         Boss_room = loadMusic("ui/sound/meet_the_grahams.mp3");
         if (Boss_room != null) Boss_room.setLooping(true);
+
+        BossVictoryMusic = loadMusic("ui/sound/we_are_the_champion.mp3");
+        if (BossVictoryMusic != null) BossVictoryMusic.setLooping(false);
+
 
         //Enemy
         crawler = loadSound("ui/sound/Enemy/crawler.wav");
@@ -168,8 +172,18 @@ public class AudioManager {
         }
         return instance;
     }
+    public void playBossVictoryMusic() {
+        if (DeathPopUp !=null)DeathPopUp.pause();
+        if (BossVictoryMusic != null) {
+            BossVictoryMusic.setVolume(masterVolume*1.4f);
+            BossVictoryMusic.play();
+        }
+    }
 
     public void playBGM() {
+        if (BossVictoryMusic!= null) {
+            BossVictoryMusic.pause();
+        }
         if (backgroundMusic == null) return;
         if (prefs.getBoolean("music_on", true)) {
             backgroundMusic.setVolume(masterVolume*1.1f);

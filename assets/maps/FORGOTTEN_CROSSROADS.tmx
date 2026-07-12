@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="1000" height="1000" tilewidth="8" tileheight="8" infinite="0" nextlayerid="15" nextobjectid="100">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="1000" height="1000" tilewidth="8" tileheight="8" infinite="0" nextlayerid="15" nextobjectid="101">
  <tileset firstgid="1" source="ForgottenCrossroads.tsx"/>
  <tileset firstgid="1723801" name="BG_vines_0024_a" tilewidth="8" tileheight="8" tilecount="928" columns="29">
   <image source="../asset/Architecture/BG_vines_0024_a.png" width="234" height="256"/>
@@ -81,7 +81,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="8" name="object" visible="0">
+ <objectgroup id="8" name="object">
   <properties>
    <property name="target" value="GREEN_PATH"/>
    <property name="targetx" type="float" value="2099"/>
@@ -474,7 +474,7 @@
     <property name="isSolid" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="71" name="enemy" x="1192" y="4136">
+  <object id="71" name="enemy" x="1186" y="3094">
    <properties>
     <property name="type" value="zote"/>
    </properties>
@@ -486,7 +486,7 @@
    </properties>
    <point/>
   </object>
-  <object id="74" name="enemy" x="2080" y="4164">
+  <object id="74" name="enemy" x="1932" y="4158">
    <properties>
     <property name="type" value="crawlid"/>
    </properties>
@@ -576,9 +576,9 @@
    </properties>
    <point/>
   </object>
-  <object id="98" name="enemy" x="1880" y="3072">
+  <object id="98" name="zote" x="1880" y="3072">
    <properties>
-    <property name="type" value="crawlid"/>
+    <property name="type" value="Zote"/>
    </properties>
    <point/>
   </object>

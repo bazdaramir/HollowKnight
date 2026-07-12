@@ -1,7 +1,9 @@
 package com.HollowKnight.model;
 
 import com.HollowKnight.model.enums.Map;
+import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,6 +15,33 @@ import com.badlogic.gdx.utils.Array;
 public class TiledMapHelper {
     private TiledMap tiledMap;
     private Vector2 respawnPoint = new Vector2(100, 100);
+
+    /**
+     * tiledMap.getLayers() فقط لایه‌های سطح بالا رو برمی‌گردونه.
+     * اگه توی Tiled یه object (مثل enemy با type=zote) داخل یک Group Layer
+     * (لایه‌ی تو در تو / پوشه‌ای از لایه‌ها) قرار گرفته باشه، اون گروه به عنوان
+     * یک لایه‌ی معمولی توی getObjects() هیچ آبجکتی برنمی‌گردونه و آبجکت‌های
+     * داخلش نادیده گرفته می‌شن؛ همین باعث می‌شه دشمنی مثل زوت اصلاً اسپاون نشه.
+     * این متد همه‌ی لایه‌ها رو -با رفتن داخل گروه‌های تو در تو- به صورت مسطح برمی‌گردونه.
+     */
+    private Array<MapLayer> getAllLayersFlattened() {
+        Array<MapLayer> result = new Array<>();
+        collectLayers(tiledMap.getLayers(), result);
+        return result;
+    }
+
+    private void collectLayers(MapLayers layers, Array<MapLayer> result) {
+        for (MapLayer layer : layers) {
+            result.add(layer);
+            // getLayers() فقط روی MapGroupLayer وجود داره، نه روی MapLayer پایه
+            if (layer instanceof MapGroupLayer) {
+                MapLayers children = ((MapGroupLayer) layer).getLayers();
+                if (children != null && children.getCount() > 0) {
+                    collectLayers(children, result);
+                }
+            }
+        }
+    }
 
     public TiledMap loadMap(String path) {
         try {
@@ -28,7 +57,7 @@ public class TiledMapHelper {
     public Array<Block> getMapBlocks() {
         Array<Block> blocks = new Array<>();
 
-        for (MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : getAllLayersFlattened()) {
             for (MapObject object : layer.getObjects()) {
                 if (object.getName() != null && object.getName().equalsIgnoreCase("respawn")) {
                     Float rx = parseSafeFloat(object.getProperties().get("x"));
@@ -69,7 +98,7 @@ public class TiledMapHelper {
     public Array<EnemySpawn> getEnemySpawns() {
         Array<EnemySpawn> spawns = new Array<>();
 
-        for (MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : getAllLayersFlattened()) {
             for (MapObject object : layer.getObjects()) {
                 if (object.getName() == null || !object.getName().equalsIgnoreCase("enemy")) continue;
 
@@ -103,7 +132,7 @@ public class TiledMapHelper {
     public Vector2 getSpawnPoint(String name) {
         if (name == null || name.trim().isEmpty()) return getRespawnPoint();
 
-        for (MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : getAllLayersFlattened()) {
             MapObject obj = layer.getObjects().get(name);
             if (obj != null) {
                 Float x = parseSafeFloat(obj.getProperties().get("x"));
@@ -117,7 +146,7 @@ public class TiledMapHelper {
     public Array<Portal> getPortals() {
         Array<Portal> portals = new Array<>();
 
-        for (MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : getAllLayersFlattened()) {
             for (MapObject object : layer.getObjects()) {
                 String objName = object.getName() != null ? object.getName().toLowerCase() : "";
                 String layName = layer.getName() != null ? layer.getName().toLowerCase() : "";

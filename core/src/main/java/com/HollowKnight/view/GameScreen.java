@@ -79,6 +79,12 @@ public class GameScreen implements Screen {
     private boolean popupSOUL_MASTER ;
     private boolean popupDEFEAT_BOSS ;
     private boolean popupZOTE ;
+    private boolean popupCOMPLETION ;
+    private boolean popupSPEEDRUN ;
+
+    private static final float SPEEDRUN_TIME_LIMIT = 180f;
+
+    private static final float ENEMY_RESPAWN_DISTANCE = 900f;
     private Map MAP_TYPE;
     private String mapAddres;
     private PopupOverlay popupOverlay;
@@ -106,6 +112,21 @@ public class GameScreen implements Screen {
     private boolean bossWasAlive = true;
     private Array<Enemy> activeEnemies;
     private Array<Enemy> deadEnemies;
+    private Array<EnemySlot> enemySlots;
+
+
+    private static class EnemySlot {
+        final float spawnX, spawnY;
+        final String type;
+        Enemy enemy;
+
+        EnemySlot(float spawnX, float spawnY, String type, Enemy enemy) {
+            this.spawnX = spawnX;
+            this.spawnY = spawnY;
+            this.type = type;
+            this.enemy = enemy;
+        }
+    }
     private Zote zote;
     private ZoteAnimationManager zoteAnimManager;
 
@@ -135,6 +156,8 @@ public class GameScreen implements Screen {
         popupSOUL_MASTER = false;
         popupDEFEAT_BOSS = false;
         popupZOTE = false;
+        popupCOMPLETION = false;
+        popupSPEEDRUN = false;
     }
 
     public GameScreen(App app, Knight existingKnight, Map targetMap, String spawnPointName) {
@@ -283,22 +306,25 @@ public class GameScreen implements Screen {
 
         activeEnemies = new Array<>();
         deadEnemies = new Array<>();
+        enemySlots = new Array<>();
         bossAnimManager = new FalseKnightAnimationManager();
         totalKills = deadEnemies.size;
 
         for (TiledMapHelper.EnemySpawn s : mapHelper.getEnemySpawns()) {
             if (s.type.equalsIgnoreCase("zote")) {
-                zote = new Zote(s.x, s.y);
+                zote = new Zote(s.x, s.y+4000f);
             }
             else if (s.type.equalsIgnoreCase("falseknight")) {
                 boss = new FalseKnight(2108f, 1976f);
                 boss.velocity.set(0, 0);
-                boss.health = 10;
+                boss.health = 30;
                 boss.isDead = false;
                 bossWasAlive = true;
             }
             else {
-                activeEnemies.add(createEnemy(s));
+                Enemy newEnemy = createEnemy(s);
+                activeEnemies.add(newEnemy);
+                enemySlots.add(new EnemySlot(s.x, s.y, s.type, newEnemy));
             }
         }
 
@@ -441,7 +467,7 @@ public class GameScreen implements Screen {
 
             if (controller.requestBossTeleport) {
                 controller.requestBossTeleport = false;
-                app.setScreen(new GameScreen(app, knight, Map.BOSS_ROOM, 200f, 150f));
+                app.setScreen(new GameScreen(app, knight, Map.BOSS_ROOM, "boss_spawn_point"));
                 return;
             }
 
@@ -512,7 +538,7 @@ public class GameScreen implements Screen {
             }
             if (knight.isDead && knight.deathTimer <= 0) {
                 if (boss != null && boss.isDead) totalKills++;
-                popupOverlay.showDeathMenu(gameTimer,totalKills);
+                popupOverlay.showDeathMenu(gameTimer,totalKills,false);
             }
 
             if ((knight.soul >= knight.maxSoul)&& !popupSOUL_MASTER) {
@@ -539,14 +565,30 @@ public class GameScreen implements Screen {
                 }
                 bossWasAlive = !boss.isDead;
 
+                if (boss.isDead && !popupCOMPLETION) {
+                    achievementManager.unlockCompletion();
+                    popupOverlay.showAchiementUnlocked("Completion");
+                    popupCOMPLETION = true;
+                }
+
+                if (boss.isDead && !popupSPEEDRUN && gameTimer <= SPEEDRUN_TIME_LIMIT) {
+                    achievementManager.unlockSpeedrun();
+                    popupOverlay.showAchiementUnlocked("Speedrun");
+                    popupSPEEDRUN = true;
+                }
+
                 if (boss.isDead && boss.deathTimer <= 0) {
                     System.out.println("🎉 GAME OVER - YOU WIN! 🎉");
-                    popupOverlay.showDeathMenu(gameTimer,totalKills);
+                    AudioManager.getInstance().mapSoundHandler("none");
+                    AudioManager.getInstance().playBossVictoryMusic();
+
+                    popupOverlay.showDeathMenu(gameTimer,totalKills,true);
                 }
             }
 
             if (zote != null) {
                 zote.update(delta, mapBlocks, knight);
+
                 if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.E) && zote.isPlayerInRange(knight)) {
                     zote.interact(knight);
                     if (zote.isInteracting) {
@@ -565,8 +607,33 @@ public class GameScreen implements Screen {
                 if (enemy.isReadyForRemoval()) {
                     deadEnemies.add(enemy);
                     activeEnemies.removeIndex(i);
+
+                    for (EnemySlot slot : enemySlots) {
+                        if (slot.enemy == enemy) {
+                            slot.enemy = null;
+                            break;
+                        }
+                    }
                 }
             }
+
+            // دوباره زنده شن
+            for (EnemySlot slot : enemySlots) {
+                if (slot.enemy == null) {
+                    float dx = knight.position.x - slot.spawnX;
+                    float dy = knight.position.y - slot.spawnY;
+                    float distanceSquared = dx * dx + dy * dy;
+
+                    if (distanceSquared >= ENEMY_RESPAWN_DISTANCE * ENEMY_RESPAWN_DISTANCE) {
+                        Enemy respawnedEnemy = createEnemy(
+                            new TiledMapHelper.EnemySpawn(slot.spawnX, slot.spawnY, slot.type)
+                        );
+                        activeEnemies.add(respawnedEnemy);
+                        slot.enemy = respawnedEnemy;
+                    }
+                }
+            }
+
             if ((activeEnemies.size == 0)&&!popupTRUE_HUNTER) {
                 achievementManager.unlockTrueHunter();
                 popupOverlay.showAchiementUnlocked("True Hunter");

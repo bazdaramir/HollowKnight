@@ -18,6 +18,7 @@ public class Zote {
     private ZoteStation station = ZoteStation.IDLE;
     private float stateTimer = 0f;
     private final float gravity = 1500f;
+    private final float MAX_FALL_SPEED = 1200f;
     private boolean onGround = false;
 
     public boolean isInteracting = false;
@@ -186,7 +187,10 @@ public class Zote {
     }
 
     private void applyPhysics(float delta, Array<Block> blocks) {
-        if (!onGround) velocity.y -= gravity * delta;
+        if (!onGround) {
+            velocity.y -= gravity * delta;
+            velocity.y = Math.max(velocity.y, -MAX_FALL_SPEED);
+        }
 
         position.x += velocity.x * delta;
         hitbox.x = position.x;

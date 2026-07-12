@@ -142,6 +142,12 @@ public class PopupOverlay {
             case "Zote":
                 addAchievementRow(mainTable, "ui/Achievements/achievement__0001_all_maps.png", "ZOTE", Translator.getText("Zote"), AchievementManager.ZOTE);
                 break;
+            case "Completion":
+                addAchievementRow(mainTable, "ui/Achievements/Completion.png", "COMPLETION", Translator.getText("Completion"), AchievementManager.COMPLETION);
+                break;
+            case "Speedrun":
+                addAchievementRow(mainTable, "ui/Achievements/Speedrun.png", "SPEEDRUN", Translator.getText("Speedrun"), AchievementManager.SPEEDRUN);
+                break;
             default:
                 break;
         }
@@ -227,7 +233,7 @@ public class PopupOverlay {
         })).pad(10).row();
     }
 
-    public void showDeathMenu(float finalTime, int enemiesKilled) {
+    public void showDeathMenu(float finalTime, int enemiesKilled,boolean victory) {
         isVisible = true;
         currentType = PopupType.DEATH;
         activateStage();
@@ -274,7 +280,7 @@ public class PopupOverlay {
             AudioManager.getInstance().puaseDeathPopUp();
             ((com.badlogic.gdx.Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(app));
         }));
-
+        if (!victory)
         AudioManager.getInstance().PlauDeathPopUp();
     }
 

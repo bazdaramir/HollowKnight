@@ -115,6 +115,8 @@ public class AchievementsScreen implements Screen {
         addAchievementRow(contentTable, "ui/Achievements/achievement__0018_vessel_01.png", "SOUL MASTER", Translator.getText("Soul Master"), AchievementManager.SOUL_MASTER);
         addAchievementRow(contentTable, "ui/Achievements/Defeat Boss.png", "DEFEAT BOSS", Translator.getText("Defeat Boss"), AchievementManager.DEFEAT_BOSS);
         addAchievementRow(contentTable, "ui/Achievements/achievement__0001_all_maps.png", "ZOTE", Translator.getText("Zote"), AchievementManager.ZOTE);
+        addAchievementRow(contentTable, "ui/Achievements/Completion.png", "COMPLETION", Translator.getText("Completion"), AchievementManager.COMPLETION);
+        addAchievementRow(contentTable, "ui/Achievements/Speedrun.png", "SPEEDRUN", Translator.getText("Speedrun"), AchievementManager.SPEEDRUN);
 
         Table backBtn = UIHelper.createGlowButton(Translator.getText("BACK"), btnStyle, 460, 70, new Runnable() {
             @Override

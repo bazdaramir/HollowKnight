@@ -69,12 +69,12 @@ public class StartGameScreen implements Screen {
         AnimatedImage animatedHeader = new AnimatedImage(UIHelper.getHeaderAnim(), false);
         mainTable.add(animatedHeader).size(600, 150).padBottom(30).row();
 
-        for (int i = 0; i < 4; i++) {
-            mainTable.add(createSaveSlot(i)).padBottom(15).row();
-        }
-
         TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
         btnStyle.font = font; btnStyle.fontColor = Color.WHITE; btnStyle.overFontColor = Color.LIGHT_GRAY;
+
+        for (int i = 0; i < 4; i++) {
+            mainTable.add(createSaveSlot(i, btnStyle)).padBottom(15).row();
+        }
 
         Table backBtn = UIHelper.createGlowButton(Translator.getText("BACK"), btnStyle, 460, 70, new Runnable() {
             @Override public void run() { transitionToScreen(new MainMenuScreen(app)); }
@@ -90,11 +90,11 @@ public class StartGameScreen implements Screen {
         stage.addActor(fadeInOverlay);
     }
 
-    private Table createSaveSlot(final int slotIndex) {
+    private Table createSaveSlot(final int slotIndex, TextButton.TextButtonStyle deleteBtnStyle) {
         Table wrapperTable = new Table();
 
         String slotText = Translator.getText("NEW GAME");
-        boolean isNewGame = !SaveGameManager.getInstance().hasSave(slotIndex);
+        final boolean isNewGame = !SaveGameManager.getInstance().hasSave(slotIndex);
 
         if (!isNewGame) {
             GameData savedData = SaveGameManager.getInstance().loadGame(slotIndex);
@@ -139,6 +139,40 @@ public class StartGameScreen implements Screen {
         wrapperTable.add(leftPointer).size(40, 40).padRight(15);
         wrapperTable.add(slotStack).width(glowWidth).height(glowHeight);
         wrapperTable.add(rightPointer).size(40, 40).padLeft(15);
+
+        if (!isNewGame) {
+            final TextButton deleteButton = new TextButton(Translator.getText("DELETE"), deleteBtnStyle);
+            deleteButton.getLabel().setFontScale(0.5f);
+
+            deleteButton.addListener(new ClickListener() {
+                private boolean confirmPending = false;
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    event.stop();
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    event.stop();
+                    if (!confirmPending) {
+                        confirmPending = true;
+                        deleteButton.setText(Translator.getText("CONFIRM DELETE"));
+                        AudioManager.getInstance().playHoverSound();
+                        return;
+                    }
+
+                    AudioManager.getInstance().playClickSound();
+                    SaveGameManager.getInstance().deleteSave(slotIndex);
+
+                    if (stage != null) stage.dispose();
+                    show();
+                }
+            });
+
+            wrapperTable.add(deleteButton).size(90, 40).padLeft(20);
+        }
 
         wrapperTable.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.enabled);
 

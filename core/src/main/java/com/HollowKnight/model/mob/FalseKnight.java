@@ -15,7 +15,7 @@ public class FalseKnight {
     public Rectangle hitbox;
     public boolean isFacingRight = false;
 
-    private final int maxHealth = 20;
+    private final int maxHealth = 30;
     public int health = maxHealth;
     private boolean isPhase2 = false;
     public boolean isDead = false;

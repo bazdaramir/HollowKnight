@@ -26,7 +26,7 @@
             "scale": 0.25,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1942,
+                "x": 1944,
                 "y": 1950
             }
         },
@@ -74,11 +74,11 @@
                 8,
                 13
             ],
-            "scale": 0.12,
+            "scale": 0.5,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 3933.3333333333335,
-                "y": 2495.833333333333
+                "x": 1694,
+                "y": 3523
             }
         },
         "FORGOTTEN_CROSSROADS.tmx#03001": {
@@ -368,8 +368,8 @@
         },
         "GREEN_PATH.tmx": {
             "expandedObjectLayers": [
-                2,
-                11
+                11,
+                2
             ],
             "scale": 0.25,
             "selectedLayer": 6,
@@ -723,18 +723,15 @@
     "map.tileWidth": 8,
     "map.width": 1000,
     "openFiles": [
-        "BOSS_ROOM.tmx",
-        "GREEN_PATH.tmx",
-        "FORGOTTEN_CROSSROADS.tmx",
-        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx"
+        "FORGOTTEN_CROSSROADS.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "BOSS_ROOM.tmx",
-        "GREEN_PATH.tmx",
-        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx",
         "FORGOTTEN_CROSSROADS.tmx",
+        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx",
+        "GREEN_PATH.tmx",
+        "BOSS_ROOM.tmx",
         "breakablePath.tsx",
         "ForgottenCrossroads.tsx",
         "spritesheet (1).tsx",

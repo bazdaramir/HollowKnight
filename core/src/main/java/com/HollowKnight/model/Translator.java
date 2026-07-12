@@ -43,6 +43,14 @@ public class Translator {
                 if (langIndex == 1) return "GERİ";
                 return "BACK";
 
+            case "DELETE":
+                if (langIndex == 1) return "SİL";
+                return "DELETE";
+
+            case "CONFIRM DELETE":
+                if (langIndex == 1) return "EMİN MİSİN?";
+                return "CONFIRM?";
+
             case "ON":
                 if (langIndex == 1) return "AÇIK";
                 return "ON";
@@ -273,6 +281,14 @@ public class Translator {
             case "Soul Master":
                 if (langIndex == 1) return "RUH USTASI";
                 return "SOUL MASTER";
+
+            case "Completion":
+                if (langIndex == 1) return "OYUNU TAMAMLA";
+                return "COMPLETE THE GAME";
+
+            case "Speedrun":
+                if (langIndex == 1) return "HIZLI BİTİRME";
+                return "DEFEAT THE FALSE KNIGHT IN RECORD TIME";
 
             case "PRESS ANY KEY TO CONTINUE PLAYING":
                 if (langIndex == 1) return "OYNAMAYA DEVAM ETMEK İÇİN HERHANGİ BİR TUŞA BASIN";
