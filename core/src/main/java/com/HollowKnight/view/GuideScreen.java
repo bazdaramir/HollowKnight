@@ -4,6 +4,7 @@ import com.HollowKnight.model.App;
 import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.UIHelper;
 import com.HollowKnight.model.animations.AnimatedImage;
+import com.HollowKnight.model.manager.KeyBindingManager;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -24,7 +25,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class GuideScreen implements Screen {
     private Stage stage;
     private App app;
-    private Preferences prefs;
 
     private Label.LabelStyle titleStyle;
     private Label.LabelStyle descStyle;
@@ -33,7 +33,6 @@ public class GuideScreen implements Screen {
 
     public GuideScreen(App app) {
         this.app = app;
-        this.prefs = Gdx.app.getPreferences("HollowKnight_Settings");
     }
 
     @Override
@@ -41,16 +40,11 @@ public class GuideScreen implements Screen {
         stage = new Stage(new FitViewport(1920, 1080));
         Gdx.input.setInputProcessor(stage);
 
-        Image background = new Image(new TextureRegion(new Texture(Gdx.files.internal("ui/MainMenu/background.png"))));
+        Image background = new Image(new TextureRegion(UIHelper.getMenuBackground()));
         background.setFillParent(true);
         stage.addActor(background);
 
-        Image fog = new Image(new Texture(Gdx.files.internal("ui/MainMenu/fog.png")));
-        fog.setSize(1920 * 2, 1080 * 2);
-        fog.getColor().a = 0.2f;
-        fog.setPosition(0, +500);
-        fog.addAction(Actions.forever(Actions.sequence(Actions.moveBy(0, -1000, 40f), Actions.moveTo(0, 0))));
-        stage.addActor(fog);
+        stage.addActor(UIHelper.createFog());
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/Fonts/trajan.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter titleParam = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -93,16 +87,17 @@ public class GuideScreen implements Screen {
 
         contentTable.add(new Label(Translator.getText("CONTROLS"), titleStyle)).padBottom(30).row();
         Table controlsTable = new Table();
-        addControlRow(controlsTable, Translator.getText("MOVE LEFT"), prefs.getInteger("key_left", Input.Keys.LEFT));
-        addControlRow(controlsTable, Translator.getText("MOVE RIGHT"), prefs.getInteger("key_right", Input.Keys.RIGHT));
-        addControlRow(controlsTable, Translator.getText("LOOK UP"), prefs.getInteger("key_up", Input.Keys.UP));
-        addControlRow(controlsTable, Translator.getText("LOOK DOWN"), prefs.getInteger("key_down", Input.Keys.DOWN));
-        addControlRow(controlsTable, Translator.getText("JUMP"), prefs.getInteger("key_jump", Input.Keys.Z));
-        addControlRow(controlsTable, Translator.getText("ATTACK (NAIL)"), prefs.getInteger("key_attack", Input.Keys.X));
-        addControlRow(controlsTable, Translator.getText("DASH"), prefs.getInteger("key_dash", Input.Keys.C));
-        addControlRow(controlsTable, Translator.getText("FOCUS / SPELL"), prefs.getInteger("key_focus", Input.Keys.A));
-        addControlRow(controlsTable, Translator.getText("INTERACT"), prefs.getInteger("key_interact", Input.Keys.E));
-        addControlRow(controlsTable, Translator.getText("INVENTORY / MAP"), prefs.getInteger("key_inventory", Input.Keys.I));
+        KeyBindingManager keys = KeyBindingManager.getInstance();
+        addControlRow(controlsTable, Translator.getText("MOVE LEFT"), keys.get(KeyBindingManager.LEFT));
+        addControlRow(controlsTable, Translator.getText("MOVE RIGHT"), keys.get(KeyBindingManager.RIGHT));
+        addControlRow(controlsTable, Translator.getText("LOOK UP"), keys.get(KeyBindingManager.UP));
+        addControlRow(controlsTable, Translator.getText("LOOK DOWN"), keys.get(KeyBindingManager.DOWN));
+        addControlRow(controlsTable, Translator.getText("JUMP"), keys.get(KeyBindingManager.JUMP));
+        addControlRow(controlsTable, Translator.getText("ATTACK (NAIL)"), keys.get(KeyBindingManager.ATTACK));
+        addControlRow(controlsTable, Translator.getText("DASH"), keys.get(KeyBindingManager.DASH));
+        addControlRow(controlsTable, Translator.getText("FOCUS / SPELL"), keys.get(KeyBindingManager.FOCUS));
+        addControlRow(controlsTable, Translator.getText("INTERACT"), keys.get(KeyBindingManager.INTERACT));
+        addControlRow(controlsTable, Translator.getText("INVENTORY / MAP"), keys.get(KeyBindingManager.INVENTORY));
         contentTable.add(controlsTable).padBottom(40).row();
 
         addOrnament(contentTable);

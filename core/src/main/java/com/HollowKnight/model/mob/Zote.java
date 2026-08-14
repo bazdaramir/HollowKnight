@@ -187,6 +187,11 @@ public class Zote {
     }
 
     private void applyPhysics(float delta, Array<Block> blocks) {
+        // فریم اول بعد از لود مپ چند ثانیه طول میکشه و با اون delta، زوت توی یک قدم
+        // چند هزار پیکسل میفته و چون برخورد فقط همپوشانی لحظه ایه، از وسط بلاک ها رد میشه.
+        // پس قدم فیزیک رو محدود میکنیم تا هیچوقت از کف تونل نزنه.
+        delta = Math.min(delta, 1f / 30f);
+
         if (!onGround) {
             velocity.y -= gravity * delta;
             velocity.y = Math.max(velocity.y, -MAX_FALL_SPEED);

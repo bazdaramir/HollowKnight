@@ -12,6 +12,7 @@ public class GameData {
     public float y;
     public float gameTimer;
     public String equippedCharms = "";
+    public int secretState;
 
     public ArrayList<EnemySaveData> enemies = new ArrayList<>();
 

@@ -2,6 +2,7 @@ package com.HollowKnight.controller;
 
 import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.enums.PopupType;
+import com.HollowKnight.model.manager.KeyBindingManager;
 import com.HollowKnight.model.mob.Zote;
 import com.HollowKnight.view.GameScreen;
 import com.HollowKnight.view.PopupOverlay;
@@ -19,10 +20,12 @@ public class PopupController {
 
     public void handleInput(Knight knight, Zote zote) {
 
+        KeyBindingManager keys = KeyBindingManager.getInstance();
+
         if (!popupOverlay.isVisible()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.PAUSE))) {
                 popupOverlay.showPauseMenu();
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+            } else if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.INVENTORY))) {
                 popupOverlay.showInventoryMenu();
             }
             return;
@@ -32,13 +35,14 @@ public class PopupController {
 
         switch (currentType) {
             case PAUSE:
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.PAUSE))) {
                     popupOverlay.hide();
                 }
                 break;
 
             case INVENTORY:
-                if (Gdx.input.isKeyJustPressed(Input.Keys.I) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.INVENTORY))
+                    || Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.PAUSE))) {
                     popupOverlay.hide();
                 }
                 break;
@@ -53,7 +57,7 @@ public class PopupController {
                 break;
 
             case DIALOGUE:
-                if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.INTERACT))) {
                     if (zote != null) {
                         zote.interact(knight);
                         popupOverlay.updateDialogueText(zote.displayedText);

@@ -129,6 +129,27 @@ public class TiledMapHelper {
     }
 
 
+    /**
+     * موقعیت یه آبجکت مپ رو با اسمش برمی‌گردونه، اگه نبود null.
+     * برخلاف getSpawnPoint اینجا fallback به respawn نداریم، چون فراخوان باید
+     * بفهمه آبجکت اصلاً توی مپ هست یا نه.
+     * مختصات x و y رو خود TmxMapLoader به سیستم پایین-چپ بازی تبدیل کرده،
+     * پس همون چیزی که برمی‌گرده مختصات دنیاست و تبدیل دستی نمی‌خواد.
+     */
+    public Vector2 getObjectPosition(String name) {
+        if (name == null || name.trim().isEmpty()) return null;
+
+        for (MapLayer layer : getAllLayersFlattened()) {
+            MapObject obj = layer.getObjects().get(name);
+            if (obj != null) {
+                Float x = parseSafeFloat(obj.getProperties().get("x"));
+                Float y = parseSafeFloat(obj.getProperties().get("y"));
+                if (x != null && y != null) return new Vector2(x, y);
+            }
+        }
+        return null;
+    }
+
     public Vector2 getSpawnPoint(String name) {
         if (name == null || name.trim().isEmpty()) return getRespawnPoint();
 

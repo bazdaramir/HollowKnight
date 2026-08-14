@@ -39,6 +39,14 @@ public class Translator {
                 if (langIndex == 1) return "DİL";
                 return "LANGUAGE";
 
+            case "RESET CONTROLS":
+                if (langIndex == 1) return "KONTROLLERİ SIFIRLA";
+                return "RESET CONTROLS";
+
+            case "THEME":
+                if (langIndex == 1) return "TEMA";
+                return "THEME";
+
             case "BACK":
                 if (langIndex == 1) return "GERİ";
                 return "BACK";

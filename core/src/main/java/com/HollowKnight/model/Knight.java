@@ -63,6 +63,8 @@ public class Knight {
     public Vector2 lastSafePosition;
     public boolean godMode = false;
     public boolean noClip = false;
+    // وضعیت اتاق مخفی: ۰ دیوار سالم، ۱ دیوار شکسته، ۲ ویدهارت برداشته شده
+    public int secretState = 0;
     public boolean isFacingRight = true;
     public boolean isDashing = false;
     public boolean isOnGround = false;
@@ -299,6 +301,7 @@ public class Knight {
         Rectangle slashHitbox = new Rectangle(slashX, slashY, slashWidth, slashHeight);
         boolean hitSomething = false;
         boolean pogoValidHit = false;
+        boolean hitWall = false;
 
         int nailDamage = hasCharm("Unbreakable Strength") ? 2 : 1;
 
@@ -334,18 +337,17 @@ public class Knight {
             for (int i = blocks.size - 1; i >= 0; i--) {
                 Block block = blocks.get(i);
 
+                // دیوار شکستنی دقیقا با ۳ ضربه میشکنه، پس دمیج شارم روش اثر نداره
                 if (block.isBreakable && slashHitbox.overlaps(block.rect)) {
-                    block.health -= nailDamage;
+                    block.health -= 1;
                     hitSomething = true;
-
-                    if (block.health <= 0) {
-                    }
+                    hitWall = true;
                 }
             }
         }
 
         if (hitSomething) {
-            AudioManager.getInstance().KnightSoundHandler("enemy_damage", null);
+            AudioManager.getInstance().KnightSoundHandler(hitWall ? "wall_hit" : "enemy_damage", null);
 
             int soulGain = hasCharm("Soul Catcher") ? SOUL_PER_HIT + 5 : SOUL_PER_HIT;
 
@@ -495,10 +497,11 @@ public class Knight {
         if (noClip) {
             float flySpeed = 800f;
             velocity.set(0, 0);
-            if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.RIGHT)) velocity.x = flySpeed;
-            if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.LEFT)) velocity.x = -flySpeed;
-            if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.UP)) velocity.y = flySpeed;
-            if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.DOWN)) velocity.y = -flySpeed;
+            com.HollowKnight.model.manager.KeyBindingManager keys = com.HollowKnight.model.manager.KeyBindingManager.getInstance();
+            if (Gdx.input.isKeyPressed(keys.get(com.HollowKnight.model.manager.KeyBindingManager.RIGHT))) velocity.x = flySpeed;
+            if (Gdx.input.isKeyPressed(keys.get(com.HollowKnight.model.manager.KeyBindingManager.LEFT))) velocity.x = -flySpeed;
+            if (Gdx.input.isKeyPressed(keys.get(com.HollowKnight.model.manager.KeyBindingManager.UP))) velocity.y = flySpeed;
+            if (Gdx.input.isKeyPressed(keys.get(com.HollowKnight.model.manager.KeyBindingManager.DOWN))) velocity.y = -flySpeed;
 
             position.x += velocity.x * delta;
             position.y += velocity.y * delta;

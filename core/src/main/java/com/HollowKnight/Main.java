@@ -12,7 +12,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Main extends Game {
+public class
+Main extends Game {
     private App app;
     private SpriteBatch batch;
     private Texture blackTexture;

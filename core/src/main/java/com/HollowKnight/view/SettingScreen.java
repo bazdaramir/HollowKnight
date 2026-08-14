@@ -1,10 +1,12 @@
 package com.HollowKnight.view;
 
+import com.HollowKnight.data.GameDataManager;
 import com.HollowKnight.model.App;
 import com.HollowKnight.model.Translator;
 import com.HollowKnight.model.UIHelper;
 import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.manager.AudioManager;
+import com.HollowKnight.model.manager.KeyBindingManager;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -33,6 +36,11 @@ public class SettingScreen implements Screen {
     private TextButton.TextButtonStyle btnStyle;
     private Texture blackFadeTexture;
 
+    private Image themeBackground;
+    private Label themeLabel;
+    private String themePrefix;
+    private int themeIndex;
+
     public SettingScreen(App app) {
         this(app, null);
     }
@@ -48,15 +56,12 @@ public class SettingScreen implements Screen {
         stage = new Stage(new FitViewport(1920, 1080));
         Gdx.input.setInputProcessor(stage);
 
-        Image background = new Image(new TextureRegion(new Texture(Gdx.files.internal("ui/MainMenu/background.png"))));
+        Image background = new Image(new TextureRegion(UIHelper.getMenuBackground()));
         background.setFillParent(true);
         stage.addActor(background);
+        themeBackground = background;
 
-        Image fog = new Image(new Texture(Gdx.files.internal("ui/MainMenu/fog.png")));
-        fog.setSize(1920 * 2, 1080 * 2); fog.getColor().a = 0.1f;
-        fog.setPosition(0, +500);
-        fog.addAction(Actions.forever(Actions.sequence(Actions.moveBy(0, -1000, 40f), Actions.moveTo(0, 0))));
-        stage.addActor(fog);
+        stage.addActor(UIHelper.createFog());
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/Fonts/trajan.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -110,16 +115,36 @@ public class SettingScreen implements Screen {
         addOrnament(contentTable);
 
         Table keysTable = new Table();
-        keysTable.add(createKeybindBtn("LEFT", "key_left", Input.Keys.LEFT)).padRight(120).padBottom(30);
-        keysTable.add(createKeybindBtn("RIGHT", "key_right", Input.Keys.RIGHT)).padBottom(30).row();
-        keysTable.add(createKeybindBtn("UP", "key_up", Input.Keys.UP)).padRight(120).padBottom(30);
-        keysTable.add(createKeybindBtn("DOWN", "key_down", Input.Keys.DOWN)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("LEFT", KeyBindingManager.LEFT)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("RIGHT", KeyBindingManager.RIGHT)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("UP", KeyBindingManager.UP)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("DOWN", KeyBindingManager.DOWN)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("JUMP", KeyBindingManager.JUMP)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("ATTACK", KeyBindingManager.ATTACK)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("DASH", KeyBindingManager.DASH)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("FOCUS", KeyBindingManager.FOCUS)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("SPELL 1", KeyBindingManager.FIREBALL)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("SPELL 2", KeyBindingManager.SCREAM)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("INTERACT", KeyBindingManager.INTERACT)).padRight(120).padBottom(30);
+        keysTable.add(createKeybindBtn("INVENTORY", KeyBindingManager.INVENTORY)).padBottom(30).row();
+        keysTable.add(createKeybindBtn("PAUSE", KeyBindingManager.PAUSE)).padRight(120).padBottom(30).row();
         contentTable.add(keysTable).colspan(2).padBottom(30).row();
+
+        Table resetKeysBtn = UIHelper.createGlowButton(Translator.getText("RESET CONTROLS"), btnStyle, 460, 70, new Runnable() {
+            @Override public void run() {
+                KeyBindingManager.getInstance().resetToDefaults();
+                transitionToScreen(new SettingScreen(app, returnToGameScreen));
+            }
+        });
+        contentTable.add(resetKeysBtn).colspan(2).padBottom(40).row();
 
         addOrnament(contentTable);
 
         Table langBtn = createLangToggle(Translator.getText("LANGUAGE"), "language_id");
         contentTable.add(langBtn).colspan(2).padBottom(50).row();
+
+        Table themeSelector = createThemeSelector(Translator.getText("THEME"));
+        contentTable.add(themeSelector).colspan(2).padBottom(50).row();
 
         addOrnament(contentTable);
 
@@ -151,6 +176,14 @@ public class SettingScreen implements Screen {
         fadeInOverlay.setFillParent(true); fadeInOverlay.getColor().a = 1f;
         fadeInOverlay.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.removeActor()));
         stage.addActor(fadeInOverlay);
+
+        stage.addListener(new InputListener() {
+            @Override public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.LEFT) { changeTheme(-1); return true; }
+                if (keycode == Input.Keys.RIGHT) { changeTheme(1); return true; }
+                return false;
+            }
+        });
     }
 
     private void createFadeTexture() {
@@ -274,11 +307,55 @@ public class SettingScreen implements Screen {
         return table;
     }
 
-    private Table createKeybindBtn(final String actionName, final String prefKey, int defaultKey) {
+    // ردیف انتخاب تم بک گراند منو، دقیقا مثل بقیه ردیف های تنظیمات با فلش چپ و راست
+    private Table createThemeSelector(final String prefix) {
+        Table table = new Table();
+        themePrefix = prefix;
+        themeIndex = GameDataManager.getInstance().getSelectedTheme();
+        themeLabel = new Label(themeText(), labelStyle);
+
+        Texture arrowTexture = new Texture(Gdx.files.internal("ui/MainMenu/slider_arrow.png"));
+        TextureRegion rightRegion = new TextureRegion(arrowTexture);
+        TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightRegion);
+        TextureRegion leftRegion = new TextureRegion(arrowTexture);
+        leftRegion.flip(true, false);
+        TextureRegionDrawable leftDrawable = new TextureRegionDrawable(leftRegion);
+
+        ImageButton leftArrow = new ImageButton(leftDrawable);
+        ImageButton rightArrow = new ImageButton(rightDrawable);
+
+        leftArrow.addListener(new ClickListener() {
+            @Override public void clicked(InputEvent event, float x, float y) { changeTheme(-1); }
+        });
+        rightArrow.addListener(new ClickListener() {
+            @Override public void clicked(InputEvent event, float x, float y) { changeTheme(1); }
+        });
+
+        table.add(leftArrow).size(30, 40).padRight(20);
+        table.add(themeLabel).width(350).center();
+        table.add(rightArrow).size(30, 40).padLeft(20);
+        return table;
+    }
+
+    private String themeText() {
+        return themePrefix + ": Theme " + (themeIndex + 1);
+    }
+
+    private void changeTheme(int step) {
+        int nextIndex = themeIndex + step;
+        if (nextIndex < 0 || nextIndex >= UIHelper.THEME_COUNT) return;
+
+        themeIndex = nextIndex;
+        GameDataManager.getInstance().setSelectedTheme(themeIndex);
+        themeLabel.setText(themeText());
+        themeBackground.setDrawable(new TextureRegionDrawable(new TextureRegion(UIHelper.getMenuBackground())));
+        AudioManager.getInstance().playClickSound();
+    }
+
+    private Table createKeybindBtn(final String actionName, final String action) {
         Table wrapperTable = new Table();
-        int currentKeyCode = prefs.getInteger(prefKey, defaultKey);
-        String keyName = Input.Keys.toString(currentKeyCode).toUpperCase();
-        final TextButton keyBtn = new TextButton(actionName + " [ " + keyName + " ]", btnStyle);
+        final KeyBindingManager keys = KeyBindingManager.getInstance();
+        final TextButton keyBtn = new TextButton(actionName + " [ " + keys.getKeyName(action) + " ]", btnStyle);
 
         final AnimatedImage leftPointer = new AnimatedImage(UIHelper.getLeftPointerAnim(), true);
         final AnimatedImage rightPointer = new AnimatedImage(UIHelper.getRightPointerAnim(), false);
@@ -305,9 +382,11 @@ public class SettingScreen implements Screen {
                 keyBtn.setText("Dadash yechi bezan");
                 Gdx.input.setInputProcessor(new InputAdapter() {
                     @Override public boolean keyDown(int keycode) {
-                        prefs.putInteger(prefKey, keycode); prefs.flush();
-                        String newKeyName = Input.Keys.toString(keycode).toUpperCase();
-                        keyBtn.setText(actionName + " [ " + newKeyName + " ]");
+                        // اسکیپ یعنی بیخیال، کلید نامعتبر یا تکراری هم قبول نمیشه و کلید قبلی سرجاش میمونه
+                        if (keycode != Input.Keys.ESCAPE && !keys.rebind(action, keycode)) {
+                            AudioManager.getInstance().playHoverSound();
+                        }
+                        keyBtn.setText(actionName + " [ " + keys.getKeyName(action) + " ]");
                         Gdx.input.setInputProcessor(stage);
                         return true;
                     }

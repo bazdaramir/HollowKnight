@@ -41,6 +41,8 @@ public class AudioManager {
     // knight
     private Sound slash;
     private Sound enemy_damage;
+    private Sound wall_hit;
+    private Sound wall_break;
     private Sound jump;
     private Sound falling;
     private Sound Howling_spell;
@@ -117,6 +119,8 @@ public class AudioManager {
         //knight
         slash = loadSound("ui/sound/knight/slash.wav");
         enemy_damage = loadSound("ui/sound/knight/enemy_damage.wav");
+        wall_hit = loadSound("ui/sound/breakable_wall_hit.wav");
+        wall_break = loadSound("ui/sound/breakable_wall_death.wav");
         jump = loadSound("ui/sound/knight/jump.wav");
         falling = loadSound("ui/sound/knight/falling.wav");
         Howling_spell = loadSound("ui/sound/Knight/Howling_spell.wav");
@@ -315,7 +319,7 @@ public class AudioManager {
         if (prefs.getBoolean("sfx_on", true)) {
             switch (sound) {
                 case "walk": safePlay(huskhornhead_walk, masterVolume); break;
-                case "run": safePlay(huskhornhead_run, masterVolume * 0.7f); break;
+                case "run": safePlay(huskhornhead_run, masterVolume * 0.9f); break;
                 default: break;
             }
         }
@@ -324,8 +328,8 @@ public class AudioManager {
     public void CrystallsSoundHandler(String sound) {
         if (prefs.getBoolean("sfx_on", true)) {
             switch (sound) {
-                case "laser": safePlay(lasershoot, masterVolume * 0.8f); break;
-                case "run": safePlay(crystallgaurdian_run, masterVolume * 0.9f); break;
+                case "laser": safePlay(lasershoot, masterVolume * 0.99f); break;
+                case "run": safePlay(crystallgaurdian_run, masterVolume * 0.99f); break;
                 default: break;
             }
         }
@@ -343,7 +347,7 @@ public class AudioManager {
             switch (sound) {
                 case "fly":
                     if (mossfly_fly != null) {
-                        mossfly_fly.setVolume(masterVolume*0.6f);
+                        mossfly_fly.setVolume(masterVolume*0.8f);
                         mossfly_fly.play();
                     }
                     break;
@@ -393,6 +397,12 @@ public class AudioManager {
                     break;
                 case "enemy_damage":
                     safePlay(enemy_damage, masterVolume * 0.8f);
+                    break;
+                case "wall_hit":
+                    safePlay(wall_hit, masterVolume * 0.9f);
+                    break;
+                case "wall_break":
+                    safePlay(wall_break, masterVolume * 0.9f);
                     break;
                 case "Double_jump":
                     safePlay(Double_jump, masterVolume * 0.8f);

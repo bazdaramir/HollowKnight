@@ -5,6 +5,7 @@ import com.HollowKnight.model.Knight;
 import com.HollowKnight.model.mob.Enemy;
 import com.HollowKnight.model.mob.FalseKnight;
 import com.HollowKnight.model.mob.Zote;
+import com.HollowKnight.model.manager.KeyBindingManager;
 import com.HollowKnight.view.PopupOverlay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -53,50 +54,52 @@ public class KnightController {
                 }
             }
         } else {
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            KeyBindingManager keys = KeyBindingManager.getInstance();
+
+            if (Gdx.input.isKeyPressed(keys.get(KeyBindingManager.RIGHT))) {
                 knight.moveRight();
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            } else if (Gdx.input.isKeyPressed(keys.get(KeyBindingManager.LEFT))) {
                 knight.moveLeft();
             } else {
                 knight.stopMoving();
             }
 
             // kump Z
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.JUMP))) {
                 knight.requestJump();
             }
-            boolean isJumpKeyDown = Gdx.input.isKeyPressed(Input.Keys.SPACE);
+            boolean isJumpKeyDown = Gdx.input.isKeyPressed(keys.get(KeyBindingManager.JUMP));
             if (wasJumpKeyDown && !isJumpKeyDown) {
                 knight.releaseJump();
             }
             wasJumpKeyDown = isJumpKeyDown;
-            boolean isDownHeld = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+            boolean isDownHeld = Gdx.input.isKeyPressed(keys.get(KeyBindingManager.DOWN));
 
             // dash C
-            if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.DASH))) {
                 knight.dash();
             }
 
             //attack X
-            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.ATTACK))) {
                 knight.attack(enemies, boss, zote, mapBlocks, isDownHeld);
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            if (Gdx.input.isKeyPressed(keys.get(KeyBindingManager.FOCUS))) {
                 knight.startFocus();
             } else {
                 if (knight.isFocusing) {
                     knight.stopFocus();
                 }
             }
-            if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.B)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.FIREBALL))) {
                 knight.castVengefulSpirit();
             }
-            if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.S)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.SCREAM))) {
                 knight.castHowlingWraiths();
 
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+            if (Gdx.input.isKeyJustPressed(keys.get(KeyBindingManager.INVENTORY))) {
                 popupOverlay.showInventoryMenu();
             }
 

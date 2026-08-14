@@ -1,5 +1,5 @@
 {
-    "activeFile": "FORGOTTEN_CROSSROADS.tmx",
+    "activeFile": "BOSS_ROOM.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -23,11 +23,11 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 0.25,
+            "scale": 0.33,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1944,
-                "y": 1950
+                "x": 1993.939393939394,
+                "y": 1677.2727272727275
             }
         },
         "BOSS_ROOM.tmx#1": {
@@ -71,14 +71,14 @@
         },
         "FORGOTTEN_CROSSROADS.tmx": {
             "expandedObjectLayers": [
-                8,
-                13
+                13,
+                8
             ],
-            "scale": 0.5,
+            "scale": 0.125,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 1694,
-                "y": 3523
+                "x": 3856,
+                "y": 2124
             }
         },
         "FORGOTTEN_CROSSROADS.tmx#03001": {
@@ -368,14 +368,14 @@
         },
         "GREEN_PATH.tmx": {
             "expandedObjectLayers": [
-                11,
-                2
+                2,
+                11
             ],
-            "scale": 0.25,
+            "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1296,
-                "y": 3878
+                "x": 5632,
+                "y": 3452
             }
         },
         "GREEN_PATH.tmx#2": {
@@ -723,15 +723,17 @@
     "map.tileWidth": 8,
     "map.width": 1000,
     "openFiles": [
-        "FORGOTTEN_CROSSROADS.tmx"
+        "FORGOTTEN_CROSSROADS.tmx",
+        "GREEN_PATH.tmx",
+        "BOSS_ROOM.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "string",
     "recentFiles": [
         "FORGOTTEN_CROSSROADS.tmx",
-        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx",
         "GREEN_PATH.tmx",
         "BOSS_ROOM.tmx",
+        "Gemini_Generated_Image_iam1u0iam1u0iam1.tsx",
         "breakablePath.tsx",
         "ForgottenCrossroads.tsx",
         "spritesheet (1).tsx",

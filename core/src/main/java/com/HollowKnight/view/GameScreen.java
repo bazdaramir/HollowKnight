@@ -46,6 +46,16 @@ public class GameScreen implements Screen {
 
     private Array<AmbientMob> ambientMobs;
     private AmbientAnimationManager ambientAnimManager;
+    // دیوار شکستنی و اتاق مخفی
+    private Texture wallTex, rockTex, voidHeartTex, darkTex;
+    private TextureRegion[] wallFrames, rockFrames;
+    private Block breakableWall;
+    private float wallBreakTimer = -1f;
+    // لرزش کوتاه دیوار بعد از هر ضربه، فقط تصویریه و به هیتباکس دست نمیزنه
+    private float wallShakeTimer = -1f;
+    private int lastWallHealth = -1;
+    private static final float WALL_SHAKE_TIME = 0.18f;
+
     private Texture maskFullTex, maskEmptyTex;
     private Texture orbEyeTex;
 
@@ -129,12 +139,87 @@ public class GameScreen implements Screen {
     }
     private Zote zote;
     private ZoteAnimationManager zoteAnimManager;
+    // TEMP DEBUG
+    private float zoteDebugTimer = 0f;
+    private int zoteRenderLogs = 0;
 
     private int[] backgroundLayers;
     private int[] foregroundLayers;
     private boolean initialized = false;
     private int saveSlot = -1;
     private GameData pendingLoad;
+
+    // دیوار فقط از دو تا سنگ بزرگه، هرکدوم ۹۰ درجه چرخیده تا عمودی بشه، یکی دقیقا روی اون یکی
+    private void drawStoneWall(float wx, float wy, float ww, float wh) {
+        float sh = wh / 2f;
+        // هر تکه کمی بلندتر از سهمش کشیده میشه تا دوتا رو هم بیفتن و درز وسط دیده نشه
+        float drawn = sh * 1.15f;
+        for (int i = 0; i < 2; i++) {
+            float cx = wx + ww / 2f;
+            float cy = wy + sh / 2f + i * sh;
+            // عرض و ارتفاع جابجا داده میشن تا بعد از چرخش، همون کادر قبلی پر بشه
+            // scaleY منفی چون بعد از چرخش ۹۰ درجه، محور y محلی همون افق صفحه ست (آینه چپ-راست)
+            batch.draw(wallFrames[i], cx - drawn / 2f, cy - ww / 2f, drawn / 2f, ww / 2f, drawn, ww, 1f, -1f, 90f);
+        }
+    }
+
+    // دیوار شکستنی، تاریکی اتاق مخفی، خرده سنگ ها و جایزه ویدهارت
+    private void drawSecretRoom() {
+        if (breakableWall == null) return;
+        Rectangle r = breakableWall.rect;
+
+        if (knight.secretState == 0) {
+            // تاریکی از بالا و پایین کمی بیشتر کشیده میشه تا از لبه ها چیزی پشت دیوار پیدا نشه
+            float pad = 160f;
+            // پرده کمی قبل از لبه راست دیوار تموم میشه تا نوار سیاه از سمت بازیکن بیرون نزنه
+            float shiftLeft = 30f;
+            batch.draw(darkTex, 0, r.y - pad, r.x + r.width - shiftLeft, r.height + pad * 2f);
+            // فقط تصویر سنگ ها میلرزه، r دست نخورده میمونه پس برخورد عوض نمیشه
+            // لرزش خیلی ریز و همیشگی تا بازیکن حس کنه این دیوار سست و شکستنیه
+            // فرکانس ها مضرب هم نیستن تا الگوش تکراری به نظر نیاد
+            float shakeX = (float) Math.sin(gameTimer * 2.7f) * 0.6f
+                + (float) Math.sin(gameTimer * 6.1f + 1.3f) * 0.4f;
+            float shakeY = (float) Math.cos(gameTimer * 3.3f + 0.7f) * 0.5f
+                + (float) Math.sin(gameTimer * 5.2f) * 0.3f;
+            if (wallShakeTimer >= 0f && wallShakeTimer < WALL_SHAKE_TIME) {
+                float damp = 1f - wallShakeTimer / WALL_SHAKE_TIME;
+                shakeX += (float) Math.sin(wallShakeTimer * 95f) * 7f * damp;
+                shakeY += (float) Math.cos(wallShakeTimer * 73f) * 3f * damp;
+            }
+            drawStoneWall(r.x + shakeX, r.y + shakeY, r.width, r.height);
+            return;
+        }
+
+        if (wallBreakTimer >= 0f && wallBreakTimer < 0.6f) {
+            float t = wallBreakTimer / 0.6f;
+            batch.setColor(1f, 1f, 1f, 1f - t);
+            drawStoneWall(r.x, r.y - 260f * t * t, r.width, r.height);
+            batch.setColor(Color.WHITE);
+        }
+        if (wallBreakTimer >= 0f && wallBreakTimer < 1.2f) {
+            float t = wallBreakTimer;
+            for (int i = 0; i < 14; i++) {
+                float a = i * 0.4488f;
+                float px = r.x + r.width / 2f + (float) Math.cos(a) * 300f * t;
+                float py = r.y + r.height / 2f + (float) Math.sin(a) * 300f * t - 420f * t * t;
+                batch.draw(rockFrames[i % 4], px, py, 36, 36);
+            }
+        }
+
+        if (knight.secretState == 1) {
+            Rectangle reward = new Rectangle(r.x - 80, r.y + 30, 70, 70);
+            // هیتباکس برداشتن کمی از خود آیکون بزرگ تره تا رد شدن از روش طبیعی تر حس بشه
+            Rectangle pickup = new Rectangle(reward.x - 18, reward.y - 26, reward.width + 36, reward.height + 44);
+            // اول برداشتن، بعد رسم، تا همون فریمی که گرفته شد دیگه کشیده نشه
+            if (knight.hitbox.overlaps(pickup)) {
+                knight.secretState = 2;
+                popupOverlay.getCharmManager().unlockVoidHeart();
+                AudioManager.getInstance().FullSoulSound();
+            } else {
+                batch.draw(voidHeartTex, reward.x, reward.y, reward.width, reward.height);
+            }
+        }
+    }
 
     private void drawAnchoredToHitbox(TextureRegion frame, Rectangle hitbox) {
         float frameW = frame.getRegionWidth();
@@ -225,6 +310,18 @@ public class GameScreen implements Screen {
 
         AudioManager.getInstance().mapSoundHandler(MAP_TYPE.toString().toLowerCase().replace("_", ""));
 
+        wallTex = new Texture(Gdx.files.internal("maps/breakablePath.png"));
+        wallFrames = new TextureRegion[]{ new TextureRegion(wallTex, 1, 1, 311, 200),
+                                          new TextureRegion(wallTex, 313, 1, 311, 200) };
+        rockTex = new Texture(Gdx.files.internal("maps/rock_particles.png"));
+        rockFrames = new TextureRegion[4];
+        for (int i = 0; i < 4; i++) rockFrames[i] = new TextureRegion(rockTex, 0, i * 36, 36, 36);
+        voidHeartTex = new Texture(Gdx.files.internal("ui/charms/VoidHeart.png"));
+        com.badlogic.gdx.graphics.Pixmap darkPix =
+            new com.badlogic.gdx.graphics.Pixmap(1, 1, com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888);
+        darkPix.setColor(Color.BLACK); darkPix.fill();
+        darkTex = new Texture(darkPix); darkPix.dispose();
+
         maskFullTex  = new Texture(Gdx.files.internal("ui/HUD/FilledHealth.png"));
         maskEmptyTex = new Texture(Gdx.files.internal("ui/HUD/EmptyHealth.png"));
         orbEyeTex = new Texture(Gdx.files.internal("ui/HUD/SoulOrb_Eye.png"));
@@ -269,6 +366,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < fgIndices.size; i++) foregroundLayers[i] = fgIndices.get(i);
 
         mapBlocks = mapHelper.getMapBlocks();
+        for (Block b : mapBlocks) if (b.isBreakable) breakableWall = b;
         portals = mapHelper.getPortals();
 
         System.out.println("✅ Map Fully Loaded: " + MAP_TYPE.name() + " | Portals count: " + portals.size);
@@ -310,9 +408,12 @@ public class GameScreen implements Screen {
         bossAnimManager = new FalseKnightAnimationManager();
         totalKills = deadEnemies.size;
 
+        // مبنای جای زوت آبجکت "zote" خود مپه، دقیقا مثل بقیه دشمن ها بدون آفست دستی
+        Vector2 zoteSpawn = mapHelper.getObjectPosition("zote");
+
         for (TiledMapHelper.EnemySpawn s : mapHelper.getEnemySpawns()) {
             if (s.type.equalsIgnoreCase("zote")) {
-                zote = new Zote(s.x, s.y+4000f);
+                zote = new Zote(s.x, s.y-1000);
             }
             else if (s.type.equalsIgnoreCase("falseknight")) {
                 boss = new FalseKnight(2108f, 1976f);
@@ -326,6 +427,21 @@ public class GameScreen implements Screen {
                 activeEnemies.add(newEnemy);
                 enemySlots.add(new EnemySlot(s.x, s.y, s.type, newEnemy));
             }
+        }
+
+        if (zoteSpawn != null) zote = new Zote(zoteSpawn.x, zoteSpawn.y);
+
+        // TEMP DEBUG
+        System.out.println("[ZOTE DEBUG] map=" + MAP_TYPE + " map position: " + zoteSpawn);
+        if (zote != null) {
+            System.out.println("[ZOTE DEBUG] spawn position: x=" + zote.position.x + ", y=" + zote.position.y);
+            System.out.println("[ZOTE DEBUG] hitbox: " + zote.hitbox);
+            int solidUnder = 0;
+            for (Block b : mapBlocks) {
+                if (b.isSolid && b.rect.x <= zote.position.x + 40 && b.rect.x + b.rect.width >= zote.position.x
+                    && b.rect.y + b.rect.height <= zote.position.y + 5) solidUnder++;
+            }
+            System.out.println("[ZOTE DEBUG] solid blocks in that column below spawn: " + solidUnder);
         }
 
         com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator gen =
@@ -363,6 +479,7 @@ public class GameScreen implements Screen {
             }
         }
         data.equippedCharms = charmsBuilder.toString();
+        data.secretState = knight.secretState;
 
         for (Enemy e : activeEnemies) {
             EnemySaveData ed = new EnemySaveData();
@@ -393,6 +510,8 @@ public class GameScreen implements Screen {
         if (data == null) return;
         knight.loadFromSave(data);
         gameTimer = data.gameTimer;
+        knight.secretState = data.secretState;
+        if (knight.secretState >= 2) popupOverlay.getCharmManager().unlockVoidHeart();
         restoreEquippedCharms(data.equippedCharms);
         restoreEnemies(data.enemies);
         restoreBoss(data.boss);
@@ -472,14 +591,29 @@ public class GameScreen implements Screen {
             }
 
             knight.update(delta, mapBlocks, activeEnemies, boss, zote, MAP_TYPE);
+            // هر بار که جون دیوار کم بشه یعنی ضربه خورده، پس لرزش از نو شروع میشه
+            if (breakableWall != null) {
+                if (lastWallHealth >= 0 && breakableWall.health < lastWallHealth) wallShakeTimer = 0f;
+                lastWallHealth = breakableWall.health;
+            }
+            if (wallShakeTimer >= 0f) wallShakeTimer += delta;
+
             for (int i = mapBlocks.size - 1; i >= 0; i--) {
                 Block block = mapBlocks.get(i);
-                if (block.isBreakable && block.health <= 0) {
+                // دیوار قبلا شکسته بوده یا الان با ضربه سوم شکست
+                if (block.isBreakable && (block.health <= 0 || knight.secretState > 0)) {
+                    if (knight.secretState == 0) {
+                        knight.secretState = 1;
+                        wallBreakTimer = 0f;
+                        AudioManager.getInstance().KnightSoundHandler("wall_break", null);
+                        cameraShake.shake(12f, 0.4f);
+                    }
                     TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("breakable_layer");
                     if (layer != null) layer.setCell(block.cellX, block.cellY, null);
                     mapBlocks.removeIndex(i);
                 }
             }
+            if (wallBreakTimer >= 0f) wallBreakTimer += delta;
 
 
             boolean currentlyOverlapping = false;
@@ -587,9 +721,20 @@ public class GameScreen implements Screen {
             }
 
             if (zote != null) {
+                Vector2 beforeUpdate = new Vector2(zote.position);
                 zote.update(delta, mapBlocks, knight);
 
-                if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.E) && zote.isPlayerInRange(knight)) {
+                // TEMP DEBUG
+                zoteDebugTimer += delta;
+                if (zoteDebugTimer >= 0.5f) {
+                    zoteDebugTimer = 0f;
+                    System.out.println("[ZOTE DEBUG] world position: x=" + zote.position.x + ", y=" + zote.position.y
+                        + " | moved this frame: " + zote.position.cpy().sub(beforeUpdate)
+                        + " | vel=" + zote.velocity + " | station=" + zote.getStation());
+                }
+
+                if (Gdx.input.isKeyJustPressed(com.HollowKnight.model.manager.KeyBindingManager.getInstance()
+                    .get(com.HollowKnight.model.manager.KeyBindingManager.INTERACT)) && zote.isPlayerInRange(knight)) {
                     zote.interact(knight);
                     if (zote.isInteracting) {
                         popupOverlay.showDialogue(zote.displayedText);
@@ -714,6 +859,16 @@ public class GameScreen implements Screen {
 
         if (zote != null) {
             TextureRegion zoteFrame = zoteAnimManager.getFrame(zote, stateTime);
+            // TEMP DEBUG
+            if (zoteRenderLogs < 6) {
+                zoteRenderLogs++;
+                float dx = zote.hitbox.x + (zote.hitbox.width - zoteFrame.getRegionWidth()) / 2f;
+                System.out.println("[ZOTE DEBUG] render position: x=" + dx + ", y=" + zote.hitbox.y
+                    + " | frame=" + zoteFrame.getRegionWidth() + "x" + zoteFrame.getRegionHeight()
+                    + " | camera=" + camera.position + " halfView=" + (camera.viewportWidth / 2f) + "x" + (camera.viewportHeight / 2f)
+                    + " | onScreen=" + (Math.abs(zote.position.x - camera.position.x) < camera.viewportWidth / 2f
+                                     && Math.abs(zote.position.y - camera.position.y) < camera.viewportHeight / 2f));
+            }
             drawAnchoredToHitbox(zoteFrame, zote.hitbox);
             if (zote.isPlayerInRange(knight) && !isPopupOpen && !zote.isAngry && zote.getStation() != com.HollowKnight.model.enums.ZoteStation.FALL) {
                 hintFont.draw(batch, Translator.getText("PRESS_E"), zote.position.x, zote.position.y + 80);
@@ -785,6 +940,8 @@ public class GameScreen implements Screen {
             drawAnchoredToHitbox(currentFrame, knight.hitbox);
             batch.setColor(Color.WHITE);
         }
+
+        drawSecretRoom();
 
         batch.end();
         mapRenderer.render(foregroundLayers);

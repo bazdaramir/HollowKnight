@@ -40,15 +40,11 @@ public class StartGameScreen implements Screen {
         stage = new Stage(new FitViewport(1920, 1080));
         Gdx.input.setInputProcessor(stage);
 
-        Image background = new Image(new TextureRegion(new Texture(Gdx.files.internal("ui/MainMenu/background.png"))));
+        Image background = new Image(new TextureRegion(UIHelper.getMenuBackground()));
         background.setFillParent(true);
         stage.addActor(background);
 
-        Image fog = new Image(new Texture(Gdx.files.internal("ui/MainMenu/fog.png")));
-        fog.setSize(1920 * 2, 1080 * 2); fog.getColor().a = 0.2f;
-        fog.setPosition(0, +500);
-        fog.addAction(Actions.forever(Actions.sequence(Actions.moveBy(0, -1000, 40f), Actions.moveTo(0, 0))));
-        stage.addActor(fog);
+        stage.addActor(UIHelper.createFog());
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/Fonts/trajan.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();

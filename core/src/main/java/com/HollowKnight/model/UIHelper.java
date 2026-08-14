@@ -1,8 +1,10 @@
 package com.HollowKnight.model;
 
+import com.HollowKnight.data.GameDataManager;
 import com.HollowKnight.model.animations.AnimatedImage;
 import com.HollowKnight.model.manager.AudioManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,9 +21,30 @@ import com.badlogic.gdx.utils.Array;
 
 public class UIHelper {
 
+    // تم های بک گراند منو، تم دوم اگه فایلش نبود میره رو تم اول
+    private static final String[] MENU_BACKGROUNDS = {
+        "ui/MainMenu/background.png",
+        "ui/MainMenu/background2.png"
+    };
+    public static final int THEME_COUNT = MENU_BACKGROUNDS.length;
+
     private static Texture cachedGlowTex = null;
     private static Animation<TextureRegion> leftPointerAnim = null;
     private static Animation<TextureRegion> rightPointerAnim = null;
+
+    public static Texture getMenuBackground() {
+        int themeIndex = GameDataManager.getInstance().getSelectedTheme();
+        if (themeIndex < 0 || themeIndex >= MENU_BACKGROUNDS.length) themeIndex = 0;
+
+        FileHandle file = Gdx.files.internal(MENU_BACKGROUNDS[themeIndex]);
+        if (!file.exists()) file = Gdx.files.internal(MENU_BACKGROUNDS[0]);
+        return new Texture(file);
+    }
+
+    // مه مشترک همه صفحه های منو، روی هر دو تم یکجور دیده میشه
+    public static com.HollowKnight.model.animations.FogOverlay createFog() {
+        return new com.HollowKnight.model.animations.FogOverlay();
+    }
 
     public static void initResources(int glowWidth, int glowHeight) {
         if (leftPointerAnim == null || rightPointerAnim == null) {

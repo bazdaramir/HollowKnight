@@ -18,6 +18,13 @@ public class CharmManager {
         charms.add(new Charm("Quick Focus", "Increases the healing speed of the Focus ability.", "ui/charms/QuickFocus.png"));
         charms.add(new Charm("Heavy Blow", "Increases the knockback force applied to enemies.", "ui/charms/HeavyBlow.png"));
         charms.add(new Charm("Sharp Shadow", "Damages enemies when dashing and increases dash length by 20%.", "ui/charms/SharpShadow.png"));
+    }
+
+    // ویدهارت جایزه اتاق مخفیه، تا وقتی پیدا نشده اصلا تو لیست تلسم ها نیست
+    public void unlockVoidHeart() {
+        for (Charm charm : charms) {
+            if (charm.getName().equals("Void Heart")) return;
+        }
         charms.add(new Charm("Void Heart", "Increases spell damage by 50% and changes spell animations.", "ui/charms/VoidHeart.png"));
     }
 
