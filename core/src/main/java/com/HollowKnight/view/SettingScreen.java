@@ -268,7 +268,7 @@ public class SettingScreen implements Screen {
         final int[] currentValue = {prefs.getInteger(prefKey, defaultValue)};
         final Label valueLabel = new Label(prefix + ": " + currentValue[0] + "%", labelStyle);
 
-        Texture arrowTexture = new Texture(Gdx.files.internal("ui/MainMenu/slider_arrow.png"));
+        Texture arrowTexture = new Texture(Gdx.files.internal("ui/MainMenu/Slider_arrow.png"));
         TextureRegion rightRegion = new TextureRegion(arrowTexture);
         TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightRegion);
         TextureRegion leftRegion = new TextureRegion(arrowTexture);
@@ -314,7 +314,7 @@ public class SettingScreen implements Screen {
         themeIndex = GameDataManager.getInstance().getSelectedTheme();
         themeLabel = new Label(themeText(), labelStyle);
 
-        Texture arrowTexture = new Texture(Gdx.files.internal("ui/MainMenu/slider_arrow.png"));
+        Texture arrowTexture = new Texture(Gdx.files.internal("ui/MainMenu/Slider_arrow.png"));
         TextureRegion rightRegion = new TextureRegion(arrowTexture);
         TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightRegion);
         TextureRegion leftRegion = new TextureRegion(arrowTexture);

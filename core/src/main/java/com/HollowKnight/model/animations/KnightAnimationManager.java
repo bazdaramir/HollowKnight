@@ -43,7 +43,7 @@ public class KnightAnimationManager {
 
         Array<TextureRegion> airFrames = new Array<>();
         for (int i = 0; i <= 11; i++) {
-            airFrames.add(load(String.format("ui/Knight/airborne/airborne_%03d.png", i)));
+            airFrames.add(load(String.format("ui/Knight/airborne/Airborne_%03d.png", i)));
         }
         airborneAnim = new Animation<>(0.05f, airFrames, Animation.PlayMode.NORMAL);
 
@@ -51,7 +51,7 @@ public class KnightAnimationManager {
 
         Array<TextureRegion> dashFrames = new Array<>();
         for (int i = 0; i <= 11; i++) {
-            dashFrames.add(load(String.format("ui/Knight/dash/dash_%03d.png", i)));
+            dashFrames.add(load(String.format("ui/Knight/dash/Dash_%03d.png", i)));
         }
         dashAnim = new Animation<>(0.06f, dashFrames, Animation.PlayMode.NORMAL);
 
@@ -59,7 +59,7 @@ public class KnightAnimationManager {
 
         Array<TextureRegion> djFrames = new Array<>();
         for (int i = 0; i <= 7; i++) {
-            djFrames.add(load(String.format("ui/Knight/double_jump/Double jump_%03d.png", i)));
+            djFrames.add(load(String.format("ui/Knight/double_jump/Double Jump_%03d.png", i)));
         }
         doubleJumpAnim = new Animation<>(0.04f, djFrames, Animation.PlayMode.NORMAL);
 
@@ -75,7 +75,7 @@ public class KnightAnimationManager {
 
         Array<TextureRegion> wsFrames = new Array<>();
         for (int i = 0; i <= 3; i++) {
-            wsFrames.add(load(String.format("ui/Knight/wall_slide/Wall slide_%03d.png", i)));
+            wsFrames.add(load(String.format("ui/Knight/wall_slide/Wall Slide_%03d.png", i)));
         }
         wallSlideAnim = new Animation<>(0.08f, wsFrames, Animation.PlayMode.LOOP);
 

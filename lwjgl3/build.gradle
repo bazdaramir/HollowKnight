@@ -61,9 +61,39 @@ run {
   if (os.contains('mac')) jvmArgs += "-XstartOnFirstThread"
 }
 
+// The assets/asset/ folder is the raw tileset art library; the Tiled maps only reference a small
+// part of it, and nothing in the Java source loads from asset/ directly. Work out exactly which
+// files the .tmx/.tsx maps point at, so the runnable JAR can leave the rest out instead of
+// carrying several hundred MB of unused sprites. Recomputed on every build, so editing a map in
+// Tiled automatically pulls any newly used art into the JAR.
+ext.tilesetArtUsedByMaps = {
+  File assetsDir = rootProject.file('assets').canonicalFile
+  File mapsDir = new File(assetsDir, 'maps')
+  Set<String> used = new HashSet<String>()
+  if (mapsDir.isDirectory()) {
+    mapsDir.listFiles().findAll { it.name.endsWith('.tmx') || it.name.endsWith('.tsx') }.each { mapFile ->
+      def matcher = (mapFile.getText('UTF-8') =~ /source="([^"]+)"/)
+      while (matcher.find()) {
+        String src = matcher.group(1).replace('&amp;', '&')
+        File resolved = new File(mapFile.parentFile, src).canonicalFile
+        if (resolved.path.startsWith(assetsDir.path)) {
+          used << assetsDir.toPath().relativize(resolved.toPath()).toString().replace('\\', '/')
+        }
+      }
+    }
+  }
+  return used
+}()
+
 jar {
 // sets the name of the .jar file this produces to the name of the game or app, with the version after.
   archiveFileName.set("${appName}-${projectVersion}.jar")
+// keep only the tileset art the maps actually reference (see tilesetArtUsedByMaps above)
+  eachFile { details ->
+    if (details.path.startsWith('asset/') && !tilesetArtUsedByMaps.contains(details.path)) {
+      details.exclude()
+    }
+  }
 // the duplicatesStrategy matters starting in Gradle 7.0; this setting works.
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   dependsOn configurations.runtimeClasspath
@@ -82,6 +112,14 @@ jar {
 // this last step may help on some OSes that need extra instruction to make runnable JARs.
   doLast {
     file(archiveFile).setExecutable(true, false)
+  }
+// also drop a copy of the runnable JAR in the project root, so it is easy to find and hand out.
+  doLast {
+    copy {
+      from archiveFile
+      into rootProject.projectDir
+    }
+    logger.lifecycle("Runnable JAR: ${new File(rootProject.projectDir, archiveFileName.get())}")
   }
 }
 

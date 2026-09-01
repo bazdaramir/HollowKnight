@@ -143,10 +143,10 @@ public class PopupOverlay {
                 addAchievementRow(mainTable, "ui/Achievements/achievement__0001_all_maps.png", "ZOTE", Translator.getText("Zote"), AchievementManager.ZOTE);
                 break;
             case "Completion":
-                addAchievementRow(mainTable, "ui/Achievements/Completion.png", "COMPLETION", Translator.getText("Completion"), AchievementManager.COMPLETION);
+                addAchievementRow(mainTable, "ui/Achievements/achievement__0000_100_complete.png", "COMPLETION", Translator.getText("Completion"), AchievementManager.COMPLETION);
                 break;
             case "Speedrun":
-                addAchievementRow(mainTable, "ui/Achievements/Speedrun.png", "SPEEDRUN", Translator.getText("Speedrun"), AchievementManager.SPEEDRUN);
+                addAchievementRow(mainTable, "ui/Achievements/achievement_fast_finish.png", "SPEEDRUN", Translator.getText("Speedrun"), AchievementManager.SPEEDRUN);
                 break;
             default:
                 break;

@@ -162,3 +162,12 @@ Thumbs.db
 ## You could also add that configuration to the text in nativeimage.gradle .
 ## You should delete or comment out the next line if you have configuration in a different resource-config.json .
 **/resource-config.json
+
+## The runnable JAR that `gradlew lwjgl3:jar` drops in the project root.
+## It is a build output and is far larger than GitHub's 100 MB per-file limit,
+## so it must not be committed - attach it to a GitHub Release instead.
+/HollowKnight-*.jar
+
+## Save data the game writes next to wherever it is launched from (Gdx.files.local).
+## This is runtime state, not project content - the seed database lives in assets/data/.
+/data/

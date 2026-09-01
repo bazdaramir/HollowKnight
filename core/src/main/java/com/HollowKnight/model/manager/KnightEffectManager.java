@@ -34,7 +34,7 @@ public class KnightEffectManager {
 
         Array<TextureRegion> dashFrames = new Array<>();
         for (int i = 0; i <= 6; i++) {
-            dashFrames.add(load(String.format("ui/Knight/dash_effect/Dash effect_%03d.png", i)));
+            dashFrames.add(load(String.format("ui/Knight/dash_effect/Dash Effect_%03d.png", i)));
         }
         dashEffectAnim = new Animation<>(0.0214f, dashFrames, Animation.PlayMode.NORMAL);
 
@@ -58,31 +58,31 @@ public class KnightEffectManager {
 
         Array<TextureRegion> blastFrames = new Array<>();
         for (int i = 0; i <= 7; i++) {
-            blastFrames.add(load(String.format("ui/Knight/spells/Blast_%03d.png", i)));
+            blastFrames.add(load(String.format("ui/Knight/Spells/Blast_%03d.png", i)));
         }
         blastAnim = new Animation<>(0.06f, blastFrames, Animation.PlayMode.NORMAL);
 
         Array<TextureRegion> ballFrames = new Array<>();
         for (int i = 0; i <= 3; i++) {
-            ballFrames.add(load(String.format("ui/Knight/spells/SoulBall_%03d.png", i)));
+            ballFrames.add(load(String.format("ui/Knight/Spells/SoulBall_%03d.png", i)));
         }
         soulBallAnim = new Animation<>(0.06f, ballFrames, Animation.PlayMode.LOOP);
 
         Array<TextureRegion> screamFrames = new Array<>();
         for (int i = 0; i <= 12; i++) {
-            screamFrames.add(load(String.format("ui/Knight/spells/SoulScream_%03d.png", i)));
+            screamFrames.add(load(String.format("ui/Knight/Spells/SoulScream_%03d.png", i)));
         }
         soulScreamAnim = new Animation<>(0.05f, screamFrames, Animation.PlayMode.NORMAL);
 
         Array<TextureRegion> shadowBallFrames = new Array<>();
         for (int i = 0; i <= 5; i++) {
-            shadowBallFrames.add(load(String.format("ui/Knight/spells/ShadowBall_%03d.png", i)));
+            shadowBallFrames.add(load(String.format("ui/Knight/Spells/ShadowBall_%03d.png", i)));
         }
         shadowBallAnim = new Animation<>(0.06f, shadowBallFrames, Animation.PlayMode.LOOP);
 
         Array<TextureRegion> shadowScreamFrames = new Array<>();
         for (int i = 0; i <= 12; i++) {
-            shadowScreamFrames.add(load(String.format("ui/Knight/spells/ShadowScream_%03d.png", i)));
+            shadowScreamFrames.add(load(String.format("ui/Knight/Spells/ShadowScream_%03d.png", i)));
         }
         shadowScreamAnim = new Animation<>(0.05f, shadowScreamFrames, Animation.PlayMode.NORMAL);
 
